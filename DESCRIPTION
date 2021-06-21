@@ -1,0 +1,42 @@
+Package: cropgrowdays
+Title: Crop Growing Degree Days and Agrometeorological Calculations
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Peter",
+           family = "Baker",
+           role = c("aut", "cre"),
+           email = "drpetebaker@gmail.com",
+           comment = c(ORCID = "0000-0002-1241-7263")),
+    person(given = "Miranda",
+           family = "Mortlock",
+           role = "aut",
+           email = "miranda.mortlock@qut.edu.au",
+           comment = c(ORCID = "0000-0001-7029-9827")))
+Description: Calculate agrometeorological variables for crops
+             including growing degree days (McMaster, GS & Wilhelm, WW
+             (1997) <doi:10.1016/S0168-1923(97)00027-0>), cumulative
+             rainfall, number of stress days and cumulative or mean
+             radiation and evaporation. Convert dates to day of year
+             and vice versa. Also, download curated and interpolated
+             Australian weather data from the Queensland Government
+             DES longpaddock website
+             <https://www.longpaddock.qld.gov.au/>. This data is
+             freely available under the Creative Commons 4.0 licence.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://gitlab.com/petebaker/cropgrowdays/
+BugReports: https://gitlab.com/petebaker/cropgrowdays/-/issues
+RoxygenNote: 7.1.1
+Depends: R (>= 4.0.0)
+Imports: lubridate, magrittr, dplyr, tibble, purrr, purrrlyr, httr
+Suggests: tidyverse, rmarkdown, knitr, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2021-06-20 07:00:53 UTC; pete
+Author: Peter Baker [aut, cre] (<https://orcid.org/0000-0002-1241-7263>),
+  Miranda Mortlock [aut] (<https://orcid.org/0000-0001-7029-9827>)
+Maintainer: Peter Baker <drpetebaker@gmail.com>
+Repository: CRAN
+Date/Publication: 2021-06-21 09:50:05 UTC

@@ -1,0 +1,90 @@
+---
+title: "Obtaining Historical Weather Data from Qld Government DES Website"
+output: rmarkdown::html_vignette
+bibliography: ../man/fragments/cropgrowdays.bib
+vignette: >
+  %\VignetteIndexEntry{Obtaining Historical Weather Data from Qld Government DES Website}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#:"
+)
+```
+
+```{r child="../man/fragments/intro.Rmd"} 
+```
+
+## Obtaining Australian SILO Meteorological Data for One Site
+
+You can use the `get_silodata` function to retrieve SILO weather data
+from the Queensland Government DES longpaddock website
+<https://www.longpaddock.qld.gov.au>.
+
+The SILO (Scientific Information for Land Owners) is a database of
+Australian climate data hosted by the Science and Technology Division
+of the Queensland Government's Department of Environment and
+Science. These datasets are constructed from Australian Bureau of
+Meteorology observations and provide national coverage with
+interpolated infills for missing data. Weather station data is the
+observed data while the gridded data is interpolated. Typically, for
+most variables, weather data can be obtained for the period 1 January
+1889 to yesterday. Please see
+<https://www.longpaddock.qld.gov.au/silo/about/overview/> for a more
+in-depth description.
+
+SILO products are provided free of charge to the public for use under
+the Creative Commons Attribution 4.0 license. However, please note
+that this is a free service and so a fair-use limit is imposed even if
+exact limits are not specified.
+
+```{r child="../man/fragments/boonah_description.Rmd"} 
+```
+
+Finally, please note that by default, the `APSIM` format is returned
+and a date column called `date_met` is appended to the retrieved
+data. Many other formats are available and may need to be processed
+differently.
+
+## Obtaining SILO Data for Multiple Sites
+
+Use the `get_multi_silodata` function to get SILO data for multiple
+sites. This is a simple wrapper to `get_silodata`. The main
+differences are that `latitude` and `longitude` are numerical vectors
+and the new parameter `Sitename`is a character vector of site names or
+site labels.
+
+
+A simple example is:
+```{r get-data2, eval=FALSE}
+two_sites  <- get_multi_silodata(latitude = c(-27.00, -28.00),
+                     longitude = c(151.00, 152.00),
+                     Sitename = c("Site_1", "Site_2"),
+                     START = "20201101", FINISH = "20201105",
+                     email = "MY_EMAIL_ADDRESS")
+```
+
+The retrieved data are:
+```{r}
+two_sites
+```
+
+Note that, to obtain gridded data, you need to supply at least each
+site's latitude and longitude as well as your email address by
+replacing `MY_EMAIL_ADDRESS` with your email address. The data is
+freely available under the Creative Commons 4.0 License.
+
+## Other Australian weather data
+
+The excellent `R` package `bomrang` [@sparks2017; @sparks2021], which
+used to provide forecast, bulletin and historic data (see
+https://ropensci.github.io/bomrang/), seems to currently be somewhat
+problematic since the Australian Bureau of Meteorology appears to have
+banned scraping on it's websites since March 2021. Paid services for
+some forecast, current and historical weather data for areas of
+interest may be available but these are not discussed here.
+
+## References

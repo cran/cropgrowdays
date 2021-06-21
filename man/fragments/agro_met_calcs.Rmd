@@ -1,0 +1,136 @@
+Example `R` syntax is provided for calculating daily mean radiation,
+total rainfall, growing degree dates and the number of stress days
+between two dates. Alternatively, a number of days before or after a
+certain date may be specified.
+
+### Growing Degree Days
+
+The `growing_degree_days` function calculates the sum of degree days
+for each day $i = 1 \ldots n$. The growing degree days $GDD$ summed
+over $n$ days are
+
+$$GDD = \sum_i^n (Tmax_{i} + Tmin_{i}) / 2 - T_{base}$$ 
+
+during specified dates for a tibble/data frame of daily weather
+data. For each day $i$, the maximum temperature is $Tmax_{i}$ and
+minimum is $Tmin_{i}$. Note that the maximum temperature $Tmax$ is
+capped at `maxt_cap` degrees when calculating average temperature. The
+defaults are $T_{base} = 5^{\circ}C$ and $Tmax$ is capped at
+$Tmax_{cap} = 30^{\circ}C$. (See @mcmaster1997 or
+https://farmwest.com/climate/calculator-information/gdd/ [@anonGDD])
+
+The *gdd* functions in the *pollen* package [@pollen2019] and in
+*agroclim* [@agroclim2020] also calculate growing degree days. While
+these functions do not allow for a fixed number of days, and in the
+case of *agroclim::gdd* assume a more limited growing season since the
+function appears to be tailored to grapes, further variations on the
+formula above as outlined in @baskerville1969 are available.
+
+To calculate the growing degree days at Boonah between flowering and
+harvest use:
+
+```{r gdd}
+## Growing Degree Days between two dates
+crop$flower_date[4]     # flowering date for 4th field or farm in 'crop'
+crop$harvest_date[4]    # harvest date for 4th field or farm in 'crop'
+growing_degree_days(boonah, startdate = crop$flower_date[4],
+                         enddate = crop$harvest_date[4]) #, monitor = TRUE)
+```
+
+### Stress days
+
+`stress_days_over` calculates the number of days when the maximum
+temperature exceeded a base line `stress_temp` during specified dates
+for a tibble/data frame of daily weather data. The default
+`stress_temp` is set at $30^{\circ}C$.
+
+To calculate the number of stress days at Boonah between flowering and
+harvest, use:
+
+```{r stress_days}
+## Stress days  between two dates
+stress_days_over(boonah, startdate = crop$flower_date[4],
+                 enddate = crop$harvest_date[4]) # , monitor = TRUE)
+```
+
+### Cumulative calculations
+
+`cumulative` calculates the sum total of daily values between two
+dates from a tibble/data frame of daily weather data. Typically this
+is used for solar radiation or rainfall.
+
+To calculate the total rainfall at Boonah between flowering and
+harvest, use:
+
+```{r cumulative}
+## cumulative rainfall between two dates (flowering and harvest)
+cumulative(boonah, var = rain, startdate = crop$flower_date[4],
+           enddate = crop$harvest_date[4])
+```
+
+### Daily means
+
+`daily_mean` calculates the daily average of a variable between two
+dates from a tibble/data frame of daily weather data. Typically this
+would be for temperature, rainfall or solar radiation.
+
+To calculate daily mean radiation in the 3 day period from day of
+flowering onwards (which also includes day of flowering), use:
+
+```{r daily_mean}
+## daily mean radiation for the three days ending on crop$flower_date[4]
+crop$flower_date[4] # a particular flowering date
+daily_mean(boonah, enddate = crop$flower_date[4], ndays = 3,
+           monitor = TRUE)
+```
+
+## Extracting weather data from a tibble or dataframe
+
+To extract column(s) from a tibble/data frame of daily weather data
+between two specified dates we use `weather_extract`. Either specify
+the start and end dates or specify one of these dates and also the
+number of days after or before, respectively.
+
+```{r weather1}
+## Extract rainfall data using the %>% pipe operator
+boonah %>%
+  weather_extract(rain, date = date_met, startdate = ymd("2019-08-16"),
+                  enddate = ymd("2019-08-21"))
+```
+
+## Adding agrometeorological variables to dataframes
+
+We can add columns using weather calculations to the `crop` tibble
+using the `tidyverse` functions `map_dbl` if for one varying date and
+`map_dbl2` for varying start and end dates. For more than two varying
+parameters we can use `pmap`. These functions are from the `purrr` library.
+
+To add growing degree days 7 days post sowing and the number of stress
+days above $30^\circ C$ from flowering to harvest we employ:
+
+```{r, add2crop-gdd}
+## Growing degree and stress days
+crop2 <- crop %>%
+  mutate(gddays_post_sow_7d =
+           map_dbl(sowing_date, function(x)
+             growing_degree_days(boonah, startdate = x, ndays = 7)),
+         stressdays_flower_harvest =
+           map2_dbl(flower_date, harvest_date, function(x, y)
+             stress_days_over(boonah, startdate = x, enddate = y)))
+print(crop2, n=5)
+```
+
+Similarly, to add total rainfall for the 7 days post sowing and the
+mean daily radiation from flowering to harvest we use:
+
+```{r, add2crop-totrain}
+## Totals and daily means
+crop3 <- crop %>%
+  mutate(totalrain_post_sow_7d =
+           map_dbl(sowing_date, function(x)
+             cumulative(boonah, var = rain, startdate = x, ndays = 7)),
+         meanrad_flower_harvest =
+           map2_dbl(flower_date, harvest_date, function(x, y)
+             daily_mean(boonah, var = radn, startdate = x, enddate = y)))
+print(crop3, n=5)
+```

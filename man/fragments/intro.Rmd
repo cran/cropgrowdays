@@ -1,0 +1,35 @@
+## Quick Start
+
+You can install the development version of **cropgrowdays** from `GitLab` with:
+```{r gl-installation, eval = FALSE}
+## if you don't have 'remotes' installed, automatically install it
+if (!require("remotes")) {
+  install.packages("remotes", repos = "http://cran.rstudio.com/")
+  library("remotes")
+}
+install_gitlab("petebaker/cropgrowdays", build_vignettes = TRUE)
+```
+
+## Overview
+
+The **cropgrowdays** package provides functions to calculate
+agrometeorological quantities of interest for modelling crop
+data. Currently, functions are provided for calculating growing degree
+days, stress days, cumulative and daily means of weather
+data. Australian meteorological data can be obtained from Queensland
+Government's Department of Environment and Science (DES) website. In
+addition, functions are provided to convert days of the year to dates,
+and *vice-versa*.
+
+We recommend using the **cropgrowdays** package in conjunction with
+the **tidyverse** and **lubridate** packages.
+
+```{r setup}
+suppressMessages(library(tidyverse))
+suppressMessages(library(lubridate))
+library(cropgrowdays)
+```
+Note that if you are not familiar with these packages then, in order
+to see which functions are provided and which functions conflict with
+other packages, initially it may best not to suppress messages using
+`suppressMessages`.

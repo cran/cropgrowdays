@@ -1,0 +1,15 @@
+<!--  the header with latex version only BUT THIS DOESN'T WORK! somewhat hard to debug -->
+
+
+\begin{minipage}{.5\textwidth}
+\section{cropgrowdays}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+
+```{r, include=knitr::is_latex_output(), echo=FALSE, fig.align='right', out.height='12%'}
+knitr::include_graphics("man/figures/cropgrowdays_hex.png")
+```
+\end{minipage}
+
+\vspace{-10mm}
+

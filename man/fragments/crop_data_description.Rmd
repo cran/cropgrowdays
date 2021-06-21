@@ -1,0 +1,10 @@
+The `crop` dataset consists of dates for a hypothetical crop data set
+which would also usually contain agronomic traits of interest such as
+yield, dry matter yield and so on. Each row of data contains sowing,
+flowering and harvest dates for a typical field or farm in Queensland,
+Australia.
+
+```{r, crop-dataframe}
+## crop data object
+print(crop, n=5)
+```

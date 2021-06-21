@@ -1,0 +1,27 @@
+The `boonah` dataset contains meteorological SILO data for the period
+1 Jan 2019 to 31 May 2020 obtained from the Longpaddock Queensland
+Government DES web site <https://www.longpaddock.qld.gov.au> for
+Boonah which is located at -27.9927 S, 152.6906 E. The data is in
+`APSIM` format and contains temperature, rainfall, evaporation and
+radiation variables and the rows are consecutive days during the
+period.  The weather data set was obtained using
+
+```{r get-data, eval=FALSE}
+boonah <-
+   get_silodata(latitude = "-27.9927", longitude = "152.6906",
+                email = "MY_EMAIL_ADDRESS", START = "20190101", FINISH = "20200531")
+```
+
+To obtain gridded data, which is what `get_silodata` assumes, you need
+to supply at least the site latitude and longitude as well as your
+email address by replacing `MY_EMAIL_ADDRESS` with your email
+address. The data is freely available under the Creative Commons 4.0
+License. Note that SILO may be unavailable between 11am and 1pm
+(Brisbane time) each Wednesday and Thursday to allow for essential
+system maintenance.
+
+The data obtained is
+```{r boonah-data}
+## weather data object
+print(boonah, n=5)
+```

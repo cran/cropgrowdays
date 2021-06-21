@@ -1,0 +1,48 @@
+---
+title: "Calculating Agrometeorological Variables for Crops"
+output: rmarkdown::html_vignette
+bibliography: ../man/fragments/cropgrowdays.bib
+vignette: >
+  %\VignetteIndexEntry{Calculating Agrometeorological Variables for Crops}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#:"
+)
+```
+
+<!-- Common Intro -->
+```{r child="../man/fragments/intro.Rmd"} 
+```
+
+## Obtaining Australian meteorological data
+
+The `boonah` dataset was obtained from the Queensland Government DES
+longpaddock website <https://www.longpaddock.qld.gov.au> using the
+`get_silodata` function. Please see [getting-weather-data
+vignette](./getting-weather-data.html) for details.
+
+The data obtained is
+```{r boonah-data}
+## weather data object
+print(boonah, n=5)
+```
+
+## Agrometeorological calculations
+
+```{r child="../man/fragments/crop_data_description.Rmd"} 
+```
+
+```{r child="../man/fragments/agro_met_calcs.Rmd"} 
+```
+
+## Day of year calculations
+
+```{r child="../man/fragments/day_of_year_calcs.Rmd"} 
+```
+## References
+

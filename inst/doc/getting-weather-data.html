@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Obtaining Historical Weather Data from Qld Government DES Website</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Obtaining Historical Weather Data from Qld Government DES Website</h1>
+
+
+
+<div id="quick-start" class="section level2">
+<h2>Quick Start</h2>
+<p>You can install the development version of <strong>cropgrowdays</strong> from <code>GitLab</code> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## if you don&#39;t have &#39;remotes&#39; installed, automatically install it</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;remotes&quot;</span>)) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="kw">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;http://cran.rstudio.com/&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">library</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="kw">install_gitlab</span>(<span class="st">&quot;petebaker/cropgrowdays&quot;</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>The <strong>cropgrowdays</strong> package provides functions to calculate agrometeorological quantities of interest for modelling crop data. Currently, functions are provided for calculating growing degree days, stress days, cumulative and daily means of weather data. Australian meteorological data can be obtained from Queensland Government’s Department of Environment and Science (DES) website. In addition, functions are provided to convert days of the year to dates, and <em>vice-versa</em>.</p>
+<p>We recommend using the <strong>cropgrowdays</strong> package in conjunction with the <strong>tidyverse</strong> and <strong>lubridate</strong> packages.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">suppressMessages</span>(<span class="kw">library</span>(tidyverse))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="kw">suppressMessages</span>(<span class="kw">library</span>(lubridate))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">library</span>(cropgrowdays)</span></code></pre></div>
+<p>Note that if you are not familiar with these packages then, in order to see which functions are provided and which functions conflict with other packages, initially it may best not to suppress messages using <code>suppressMessages</code>.</p>
+</div>
+<div id="obtaining-australian-silo-meteorological-data-for-one-site" class="section level2">
+<h2>Obtaining Australian SILO Meteorological Data for One Site</h2>
+<p>You can use the <code>get_silodata</code> function to retrieve SILO weather data from the Queensland Government DES longpaddock website <a href="https://www.longpaddock.qld.gov.au" class="uri">https://www.longpaddock.qld.gov.au</a>.</p>
+<p>The SILO (Scientific Information for Land Owners) is a database of Australian climate data hosted by the Science and Technology Division of the Queensland Government’s Department of Environment and Science. These datasets are constructed from Australian Bureau of Meteorology observations and provide national coverage with interpolated infills for missing data. Weather station data is the observed data while the gridded data is interpolated. Typically, for most variables, weather data can be obtained for the period 1 January 1889 to yesterday. Please see <a href="https://www.longpaddock.qld.gov.au/silo/about/overview/" class="uri">https://www.longpaddock.qld.gov.au/silo/about/overview/</a> for a more in-depth description.</p>
+<p>SILO products are provided free of charge to the public for use under the Creative Commons Attribution 4.0 license. However, please note that this is a free service and so a fair-use limit is imposed even if exact limits are not specified.</p>
+<p>The <code>boonah</code> dataset contains meteorological SILO data for the period 1 Jan 2019 to 31 May 2020 obtained from the Longpaddock Queensland Government DES web site <a href="https://www.longpaddock.qld.gov.au" class="uri">https://www.longpaddock.qld.gov.au</a> for Boonah which is located at -27.9927 S, 152.6906 E. The data is in <code>APSIM</code> format and contains temperature, rainfall, evaporation and radiation variables and the rows are consecutive days during the period. The weather data set was obtained using</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>boonah &lt;-</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="st">   </span><span class="kw">get_silodata</span>(<span class="dt">latitude =</span> <span class="st">&quot;-27.9927&quot;</span>, <span class="dt">longitude =</span> <span class="st">&quot;152.6906&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>                <span class="dt">email =</span> <span class="st">&quot;MY_EMAIL_ADDRESS&quot;</span>, <span class="dt">START =</span> <span class="st">&quot;20190101&quot;</span>, <span class="dt">FINISH =</span> <span class="st">&quot;20200531&quot;</span>)</span></code></pre></div>
+<p>To obtain gridded data, which is what <code>get_silodata</code> assumes, you need to supply at least the site latitude and longitude as well as your email address by replacing <code>MY_EMAIL_ADDRESS</code> with your email address. The data is freely available under the Creative Commons 4.0 License. Note that SILO may be unavailable between 11am and 1pm (Brisbane time) each Wednesday and Thursday to allow for essential system maintenance.</p>
+<p>The data obtained is</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">## weather data object</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">print</span>(boonah, <span class="dt">n=</span><span class="dv">5</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="co">#: # A tibble: 517 x 10</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co">#:    year   day  radn  maxt  mint  rain  evap    vp   code date_met  </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="co">#:   &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;    </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="co">#: 1  2019     1  26.2  33.9  16.3     0   7.8  20.6 222222 2019-01-01</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="co">#: 2  2019     2  28.2  33.4  17.6     0   7.7  19.8 222222 2019-01-02</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="co">#: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a><span class="co">#: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a><span class="co">#: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a><span class="co">#: # … with 512 more rows</span></span></code></pre></div>
+<p>Finally, please note that by default, the <code>APSIM</code> format is returned and a date column called <code>date_met</code> is appended to the retrieved data. Many other formats are available and may need to be processed differently.</p>
+</div>
+<div id="obtaining-silo-data-for-multiple-sites" class="section level2">
+<h2>Obtaining SILO Data for Multiple Sites</h2>
+<p>Use the <code>get_multi_silodata</code> function to get SILO data for multiple sites. This is a simple wrapper to <code>get_silodata</code>. The main differences are that <code>latitude</code> and <code>longitude</code> are numerical vectors and the new parameter <code>Sitename</code>is a character vector of site names or site labels.</p>
+<p>A simple example is:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>two_sites  &lt;-<span class="st"> </span><span class="kw">get_multi_silodata</span>(<span class="dt">latitude =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">27.00</span>, <span class="fl">-28.00</span>),</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>                     <span class="dt">longitude =</span> <span class="kw">c</span>(<span class="fl">151.00</span>, <span class="fl">152.00</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>                     <span class="dt">Sitename =</span> <span class="kw">c</span>(<span class="st">&quot;Site_1&quot;</span>, <span class="st">&quot;Site_2&quot;</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>                     <span class="dt">START =</span> <span class="st">&quot;20201101&quot;</span>, <span class="dt">FINISH =</span> <span class="st">&quot;20201105&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>                     <span class="dt">email =</span> <span class="st">&quot;MY_EMAIL_ADDRESS&quot;</span>)</span></code></pre></div>
+<p>The retrieved data are:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>two_sites</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="co">#: # A tibble: 10 x 11</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co">#:     year   day  radn  maxt  mint  rain  evap    vp   code date_met   Sitename</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co">#:    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;     &lt;chr&gt;   </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co">#:  1  2020   306  27.6  31.2  10.2     0   7.6   8.7 222222 2020-11-01 Site_1  </span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="co">#:  2  2020   307  23    31.3  11.8     0   7.2  13.3 222222 2020-11-02 Site_1  </span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="co">#:  3  2020   308  27.2  30.6  14       0   7.2  13   222222 2020-11-03 Site_1  </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="co">#:  4  2020   309  26.3  32.5  14.4     0   8.8  13.6 222222 2020-11-04 Site_1  </span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a><span class="co">#:  5  2020   310  22.9  36.9  16.1     0  10    15.8 222222 2020-11-05 Site_1  </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="co">#:  6  2020   306  26.6  27.3   9.6     0   7    10.6 222222 2020-11-01 Site_2  </span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="co">#:  7  2020   307  22.7  26.5  12.5     0   6.8  14.2 222222 2020-11-02 Site_2  </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a><span class="co">#:  8  2020   308  28.5  26.4  12.3     0   6.8  11.2 222222 2020-11-03 Site_2  </span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a><span class="co">#:  9  2020   309  27.4  28.7  11.3     0   6.8  13.1 222222 2020-11-04 Site_2  </span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="co">#: 10  2020   310  19    33.6  13.5     0   9    17   222222 2020-11-05 Site_2</span></span></code></pre></div>
+<p>Note that, to obtain gridded data, you need to supply at least each site’s latitude and longitude as well as your email address by replacing <code>MY_EMAIL_ADDRESS</code> with your email address. The data is freely available under the Creative Commons 4.0 License.</p>
+</div>
+<div id="other-australian-weather-data" class="section level2">
+<h2>Other Australian weather data</h2>
+<p>The excellent <code>R</code> package <code>bomrang</code> <span class="citation">(Sparks et al. 2017, 2021)</span>, which used to provide forecast, bulletin and historic data (see <a href="https://ropensci.github.io/bomrang/" class="uri">https://ropensci.github.io/bomrang/</a>), seems to currently be somewhat problematic since the Australian Bureau of Meteorology appears to have banned scraping on it’s websites since March 2021. Paid services for some forecast, current and historical weather data for areas of interest may be available but these are not discussed here.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references hanging-indent">
+<div id="ref-sparks2021">
+<p>Sparks, Adam H., Jonathan Carroll, James Goldie, Dean Marchiori, Paul Melloy, Mark Padgham, Hugh Parsonage, and Keith Pembleton. 2021. <em>bomrang: Australian Government Bureau of Meteorology (BOM) Data Client</em>. <a href="https://CRAN.R-project.org/package=bomrang">https://CRAN.R-project.org/package=bomrang</a>.</p>
+</div>
+<div id="ref-sparks2017">
+<p>Sparks, Adam H, Mark Padgham, Hugh Parsonage, and Keith Pembleton. 2017. “bomrang: Fetch Australian Government Bureau of Meteorology Weather Data.” <em>The Journal of Open Source Software</em> 2 (17). <a href="https://doi.org/10.21105/joss.00411">https://doi.org/10.21105/joss.00411</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
