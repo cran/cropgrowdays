@@ -14,11 +14,11 @@ expect_equal(day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
              data.frame(day = c(366, 153, 1), year = rep(2020, 3)))
 
 ## Day of Financial Year
-expect_equal(day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
-                         type = "financial"), c(214, 1, 215))
-expect_equal(day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+expect_equal(day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
+                         type = "financial"), c(184, 1, 185))
+expect_equal(day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
                         type = "fin", return_year = TRUE),
-                data.frame(day = c(214, 1, 215),
+                data.frame(day = c(184, 1, 185),
                      fin_year = c("2020/2021", "2020/2021", "2019/2020")))
             
 ## Specify the year starts on 1 September
@@ -33,7 +33,7 @@ expect_identical(day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
 ## tests for 'date_from_day_year' -----------------------------------------
 expect_identical(date_from_day_year(day = 366, year = 2020), ymd("2020-12-31"))
 expect_identical(date_from_day_year(21,2021), ymd("2021-01-21"))
-expect_identical(date_from_day_year(21,2021, type = "financial"), ymd("2021-06-21"))
+expect_identical(date_from_day_year(21,2021, type = "financial"), ymd("2021-07-21"))
 expect_identical(date_from_day_year(21,2021, type = "other", base = list(d=1, m=9)),
                  ymd("2021-09-21"))
 ## multiple days
@@ -46,10 +46,19 @@ expect_equal(day_of_harvest(x = ymd("2020-06-15"), sowing = ymd("2020-06-01")), 
 expect_equal(day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2021-06-01")), 166)
 expect_equal(day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2020-06-01")), 532)
 expect_equal(day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28")), 36)
+## x vectors and sowing dates
+expect_equal(day_of_harvest(x = c(ymd("2020-06-15"), ymd("2021-06-15")),
+                            sowing = ymd("2020-06-01")), c(167, 532)) 
+expect_equal(day_of_harvest(x = c(ymd("2020-06-15"), ymd("2021-06-15")),
+                            sowing = c(ymd("2020-06-01"), ymd("2021-06-01"))),
+             c(167, 166)) 
 expect_equal(day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
-                            type = "financial"), 250)
+                            type = "financial"), 220)
 expect_equal(day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
                             type = "other", base = list(m = 9, day = 1)), 158)
-
+expect_equal(day_of_harvest(x = ymd("2021-09-05"), sowing = ymd("2021-01-28"),
+                            type = "financial"), 432)
+expect_equal(day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
+                            type = "other", base = list(m = 9, day = 1)), 158)
 ## test number of days
 expect_equal(number_of_days(x = ymd("2021-01-05"), start = ymd("2020-12-28")), 8)

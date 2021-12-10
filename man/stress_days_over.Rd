@@ -85,7 +85,9 @@ stress_days_over(boonah, enddate = crop$harvest_date[4], ndays = 3,
 stress_days_over(boonah, startdate = crop$flower_date[4],
                  enddate = crop$harvest_date[4], monitor = TRUE)
 
-## Add selected stress days to crop tibble
+## Add selected stress days at 'boonah' to 'crop' tibble
+## using 'map2_dbl' from the 'purrr' package
+## Note: using equivalent 'furrr' functions can speed up calculations 
 crop2 <- crop \%>\%
   mutate(stressdays25_post_sow_7d =
           map_dbl(sowing_date, function(x)

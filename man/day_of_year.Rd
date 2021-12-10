@@ -17,7 +17,7 @@ day_of_year(
 \item{type}{A character string specifying the type of
 year. \dQuote{calendar} is a calendar year starting on 1
 January, \dQuote{financial} an Australian financial year
-beginning on 1 June and \dQuote{other} is for a year starting on
+beginning on 1 July and \dQuote{other} is for a year starting on
 another date which is specified in \code{base}. Default:
 \dQuote{calendar}}
 
@@ -41,7 +41,7 @@ first column \code{day} is always numeric but the class of the
 }
 \description{
 \code{day_of_year} returns the day of the year as an integer. The
-first day of the year is 1 January for the calendar year, 1 June
+first day of the year is 1 January for the calendar year, 1 July
 for the Australian financial year or can be specified as any day
 of the year if desired.
 }
@@ -54,20 +54,21 @@ day_of_year(ymd(c("2020-06-05"), "2021-06-05")) # 29 Feb in 2020 only
 day_of_year(ymd("2020-12-31"))
 day_of_year(ymd("2021-12-31"))
 day_of_year(ymd("2020-12-31"), return_year = TRUE)
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")))
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")))
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
             return_year = TRUE)
 
 ## Day of Financial Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
             type = "financial")
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
             type = "financial", return_year = TRUE)
+day_of_year(x = ymd("2021-09-05"), type = "financial") # 67
 
 ## Specify the year starts on 1 September
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
             type = "other", base = list(d = 1, m = 9))
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
             type = "other", base = list(d = 1, m = 9), return_year = TRUE)
 
 }

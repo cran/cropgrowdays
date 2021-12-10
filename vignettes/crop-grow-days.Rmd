@@ -44,5 +44,6 @@ print(boonah, n=5)
 
 ```{r child="../man/fragments/day_of_year_calcs.Rmd"} 
 ```
+
 ## References
 

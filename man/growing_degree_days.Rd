@@ -101,7 +101,9 @@ growing_degree_days(boonah, startdate = crop$flower_date[4],
                     varmax = maxt, varmin = mint,
                     enddate = crop$harvest_date[4], monitor = TRUE)
 
-## Add selected growing degree days to crop tibble
+## Add selected growing degree days at 'boonah' to 'crop' tibble
+## using 'map2_dbl' from the 'purrr' package
+## Note: using equivalent 'furrr' functions can speed up calculations 
 crop2 <- crop \%>\%
   mutate(gddays8_post_sow_7d =
           map_dbl(sowing_date, function(x)

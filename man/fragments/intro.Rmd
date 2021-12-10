@@ -1,5 +1,11 @@
 ## Quick Start
 
+Install the latest stable version of **cropgrowdays** via CRAN with:
+```{r cran-installation, eval = FALSE}
+install.packages("cropgrowdays")
+```
+
+
 You can install the development version of **cropgrowdays** from `GitLab` with:
 ```{r gl-installation, eval = FALSE}
 ## if you don't have 'remotes' installed, automatically install it

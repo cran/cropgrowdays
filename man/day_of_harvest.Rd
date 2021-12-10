@@ -8,7 +8,8 @@ day_of_harvest(
   x,
   sowing,
   type = c("calendar", "financial", "other"),
-  base = NULL
+  base = NULL,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -19,7 +20,7 @@ day_of_harvest(
 \item{type}{A character string specifying the type of
 year. \dQuote{calendar} is a calendar year starting on 1
 January, \dQuote{financial} an Australian financial year
-beginning on 1 June and \dQuote{other} is for a year starting on
+beginning on 1 July and \dQuote{other} is for a year starting on
 another date which is specified in \code{base}. Default:
 \dQuote{calendar}}
 
@@ -27,6 +28,9 @@ another date which is specified in \code{base}. Default:
 first day to be used in calculations. The name of the day
 component must be named either \dQuote{day} or \dQuote{d}, and
 the month must be named either \dQuote{month} or \dQuote{m}.}
+
+\item{verbose}{Logical to indicate whether to indicate data errors.
+(Default:FALSE)}
 }
 \value{
 An \code{numeric} vector containing the day of harvest in
@@ -34,24 +38,30 @@ the year of sowing which will differ from the day of harvest if
 the sowing date is in the previous year
 }
 \description{
-\code{day_of_harvest} calculates day of year if harvest goes past
-end of year (or not). For instance, if the sowing date is at the
-end of the year, then the harvest date early in the next year (as
-a day of year) will be be smaller than the sowing date (as a day
-of the year). This function rectifies this situation by
-calculating the harvest date as the day of year in the previous
-year and so would be greater than 366 in this instance. Of course,
-this is not necessary if the sowing and harvest dates are in the
-same year.
+\code{day_of_harvest} calculates the day of year of harvest (or
+another quantity such as petal fall) if harvest occurs in the next
+year after sowing. For instance, if the sowing date is near the
+end of the year, then the harvest date will fall in the next year.
+Hence, the harvest day (as a day of year) will be be smaller than
+the sowing date (as a day of the year). The \code{day_of_harvest}
+function rectifies this situation by calculating the harvest date
+as the day of year in the previous year. Hence, the resulting day
+of year will be greater than 366. Of course, this is not necessary
+if the sowing and harvest dates are in the same year, in which
+case \code{\link{day_of_year}} will provide exactly the same
+result.
 }
 \examples{
 library(lubridate)
-day_of_harvest(x = ymd("2020-06-15"), sowing = ymd("2020-06-01"))
-day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2021-06-01"))
-day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2020-06-01"))
+day_of_harvest(x = ymd("2020-06-15"), sowing = ymd("2020-06-01")) # leap year
+day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2021-06-01")) # not
+day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2020-06-01")) # 366+166
 day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"))
 day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
                type = "financial")
+day_of_harvest(x = ymd("2021-09-05"), sowing = ymd("2021-01-28"),
+               type = "financial") # 67 + 365
+## number_of_days(ymd("2021-02-05"), ymd("2020-09-01")) + 1
 day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
                type = "other", base = list(m = 9, day = 1))
 }

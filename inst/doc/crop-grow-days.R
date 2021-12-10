@@ -4,6 +4,9 @@ knitr::opts_chunk$set(
   comment = "#:"
 )
 
+## ----cran-installation, eval = FALSE------------------------------------------
+#  install.packages("cropgrowdays")
+
 ## ----gl-installation, eval = FALSE--------------------------------------------
 #  ## if you don't have 'remotes' installed, automatically install it
 #  if (!require("remotes")) {
@@ -49,9 +52,9 @@ daily_mean(boonah, enddate = crop$flower_date[4], ndays = 3,
            monitor = TRUE)
 
 ## ----weather1-----------------------------------------------------------------
-## Extract rainfall data using the %>% pipe operator
+## Extract daily rainfall & maximum temperature data using %>% pipe operator
 boonah %>%
-  weather_extract(rain, date = date_met, startdate = ymd("2019-08-16"),
+  weather_extract(c(rain, maxt), date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
 
 ## ---- add2crop-gdd------------------------------------------------------------
@@ -76,14 +79,30 @@ crop3 <- crop %>%
              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 print(crop3, n=5)
 
+## ---- eval=FALSE, add2crop-totrain-furrr--------------------------------------
+#  ptm <- proc.time() # Start the clock!
+#  ## set number of 'furrr' workers
+#  library(furrr)
+#  plan(multisession, workers = 2)
+#  ## Totals and daily means
+#  crop3 <- crop %>%
+#    mutate(totalrain_post_sow_7d =
+#             future_map_dbl(sowing_date, function(x)
+#               cumulative(boonah, var = rain, startdate = x, ndays = 7)),
+#           meanrad_flower_harvest =
+#             future_map2_dbl(flower_date, harvest_date, function(x, y)
+#               daily_mean(boonah, var = radn, startdate = x, enddate = y)))
+#  print(crop3, n=5)
+#  proc.time() - ptm # Stop the clock!
+
 ## ---- day-of-year-------------------------------------------------------------
 ##  Day of Calendar Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")))
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), return_year = TRUE)
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")))
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), return_year = TRUE)
 
 ## Day of Financial Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), type = "financial")
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), type = "fin",
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "financial")
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "fin",
             return_year = TRUE)
 
 ## ---- date-from-day-----------------------------------------------------------

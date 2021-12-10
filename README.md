@@ -1,17 +1,20 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- process header/icon differently for latex and html -->
-
 <!--  the header with latex version only BUT THIS DOESN'T WORK! somewhat hard to debug -->
-
 # cropgrowdays <img src="man/figures/cropgrowdays_hex.png" height="139" align="right"/>
 
-Version: 0.1.0
+Version: 0.1.1
 
 <!-- Common intro material -->
 
 ## Quick Start
+
+Install the latest stable version of **cropgrowdays** via CRAN with:
+
+``` r
+install.packages("cropgrowdays")
+```
 
 You can install the development version of **cropgrowdays** from
 `GitLab` with:
@@ -55,31 +58,31 @@ packages, initially it may best not to suppress messages using
 There are currently four key agrometeorological calculation functions in
 **cropgrowdays**. These are:
 
-  - `cumulative` calculates cumulative weather data between between two
+-   `cumulative` calculates cumulative weather data between between two
     dates, and
-  - `daily_mean` calculates daily mean of a weather variable between two
+-   `daily_mean` calculates daily mean of a weather variable between two
     dates, and
-  - `growing_degree_days` calculates the growing degree days between two
+-   `growing_degree_days` calculates the growing degree days between two
     dates as the sum of the difference between daily average temp and a
     baseline value where the daily average temp is capped, and
-  - `stress_days_over` calculates the number of days that the maximum
+-   `stress_days_over` calculates the number of days that the maximum
     temperature is over a baseline value between between two dates.
 
 In addition, several functions are available to calculate the day of
 year or convert this to a date, namely:
 
-  - `day_of_year` calculates day of year from a date, and
-  - `date_from_day_year` calculates a date from the day of the year and
+-   `day_of_year` calculates day of year from a date, and
+-   `date_from_day_year` calculates a date from the day of the year and
     the year, and
-  - `day_of_harvest` returns day of harvest in the year of sowing which,
+-   `day_of_harvest` returns day of harvest in the year of sowing which,
     of course, may be a different year to the year of harvest.
 
 Currently, two functions are available to retrieve SILO weather data
 from Queensland Government DES longpaddock website.
 
-  - `get_silodata` retrieves weather data for one location from the
+-   `get_silodata` retrieves weather data for one location from the
     `longpaddock` website, and
-  - `get_multi_silodata` retrieves weather data for several locations
+-   `get_multi_silodata` retrieves weather data for several locations
     from the `longpaddock` website.
 
 SILO (Scientific Information for Land Owners) is a database of
@@ -117,7 +120,7 @@ The data obtained is
 ``` r
 ## weather data object
 print(boonah, n=5)
-#: # A tibble: 517 x 10
+#: # A tibble: 517 × 10
 #:    year   day  radn  maxt  mint  rain  evap    vp   code date_met  
 #:   <int> <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <int> <date>    
 #: 1  2019     1  26.2  33.9  16.3     0   7.8  20.6 222222 2019-01-01
@@ -137,7 +140,7 @@ Australia.
 ``` r
 ## crop data object
 print(crop, n=5)
-#: # A tibble: 10 x 3
+#: # A tibble: 10 × 3
 #:   sowing_date flower_date harvest_date
 #:   <date>      <date>      <date>      
 #: 1 2019-08-25  2019-10-14  2019-11-03  
@@ -156,17 +159,19 @@ certain date may be specified.
 ### Growing Degree Days
 
 The `growing_degree_days` function calculates the sum of degree days for
-each day \(i = 1 \ldots n\). The growing degree days \(GDD\) summed over
-\(n\) days are
+each day *i* = 1…*n*. The growing degree days *G**D**D* summed over *n*
+days are
 
-\[GDD = \sum_i^n (Tmax_{i} + Tmin_{i}) / 2 - T_{base}\]
+$$GDD = \\sum_i^n (Tmax\_{i} + Tmin\_{i}) / 2 - T\_{base}$$
 
 during specified dates for a tibble/data frame of daily weather data.
-For each day \(i\), the maximum temperature is \(Tmax_{i}\) and minimum
-is \(Tmin_{i}\). Note that the maximum temperature \(Tmax\) is capped at
-`maxt_cap` degrees when calculating average temperature. The defaults
-are \(T_{base} = 5^{\circ}C\) and \(Tmax\) is capped at
-\(Tmax_{cap} = 30^{\circ}C\). (See McMaster and Wilhelm (1997) or
+For each day *i*, the maximum temperature is *T**m**a**x*<sub>*i*</sub>
+and minimum is *T**m**i**n*<sub>*i*</sub>. Note that the maximum
+temperature *T**m**a**x* is capped at `maxt_cap` degrees when
+calculating average temperature. The defaults are
+*T*<sub>*b**a**s**e*</sub> = 5<sup>∘</sup>*C* and *T**m**a**x* is capped
+at *T**m**a**x*<sub>*c**a**p*</sub> = 30<sup>∘</sup>*C*. (See McMaster
+and Wilhelm (1997) or
 <https://farmwest.com/climate/calculator-information/gdd/> (Anon 2021))
 
 The *gdd* functions in the *pollen* package (Nowosad 2019) and in
@@ -176,8 +181,8 @@ the case of *agroclim::gdd* assume a more limited growing season since
 the function appears to be tailored to grapes, further variations on the
 formula above as outlined in Baskerville and Emin (1969) are available.
 
-To calculate the growing degree days at Boonah between flowering and
-harvest use:
+To calculate the growing degree days at Boonah using weather data from
+the `boonah` object between flowering and harvest use:
 
 ``` r
 ## Growing Degree Days between two dates
@@ -195,7 +200,7 @@ growing_degree_days(boonah, startdate = crop$flower_date[4],
 `stress_days_over` calculates the number of days when the maximum
 temperature exceeded a base line `stress_temp` during specified dates
 for a tibble/data frame of daily weather data. The default `stress_temp`
-is set at \(30^{\circ}C\).
+is set at 30<sup>∘</sup>*C*.
 
 To calculate the number of stress days at Boonah between flowering and
 harvest, use:
@@ -238,7 +243,7 @@ crop$flower_date[4] # a particular flowering date
 #: [1] "2020-03-06"
 daily_mean(boonah, enddate = crop$flower_date[4], ndays = 3,
            monitor = TRUE)
-#: # A tibble: 3 x 2
+#: # A tibble: 3 × 2
 #:   date_met    radn
 #:   <date>     <dbl>
 #: 1 2020-03-04  10.7
@@ -255,31 +260,37 @@ start and end dates or specify one of these dates and also the number of
 days after or before, respectively.
 
 ``` r
-## Extract rainfall data using the %>% pipe operator
+## Extract daily rainfall & maximum temperature data using %>% pipe operator
 boonah %>%
-  weather_extract(rain, date = date_met, startdate = ymd("2019-08-16"),
+  weather_extract(c(rain, maxt), date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
-#: # A tibble: 6 x 2
-#:   date_met    rain
-#:   <date>     <dbl>
-#: 1 2019-08-16     0
-#: 2 2019-08-17     0
-#: 3 2019-08-18     0
-#: 4 2019-08-19     0
-#: 5 2019-08-20     0
-#: 6 2019-08-21     0
+#: # A tibble: 6 × 3
+#:   date_met    rain  maxt
+#:   <date>     <dbl> <dbl>
+#: 1 2019-08-16     0  26  
+#: 2 2019-08-17     0  28  
+#: 3 2019-08-18     0  25.7
+#: 4 2019-08-19     0  26.8
+#: 5 2019-08-20     0  23.1
+#: 6 2019-08-21     0  26.3
 ```
 
 ## Adding agrometeorological variables to dataframes
 
-We can add columns using weather calculations to the `crop` tibble using
-the `tidyverse` functions `map_dbl` if for one varying date and
-`map_dbl2` for varying start and end dates. For more than two varying
-parameters we can use `pmap`. These functions are from the `purrr`
-library.
+We can add agrometeorological variables to the `crop` tibble using the
+`tidyverse` functions `map_dbl`, `map_dbl2` and `pmap` to calculate new
+columns employing the weather data from the `boonah` object. Use
+`map_dbl` for one varying date and `map_dbl2` for varying start and end
+dates. For more than two varying parameters, which may be necessary if
+for instance our weather object contained multiple locations or sites,
+then we can use `pmap`. These functions are from the `purrr` library.
+Alternatively, we could use functions from the `apply` family such as
+`mapply` from the `base` package.
 
 To add growing degree days 7 days post sowing and the number of stress
-days above \(30^\circ C\) from flowering to harvest we employ:
+days above 30<sup>∘</sup>*C* from flowering to harvest to the `crop`
+tibble, then we employ the following `mutate` syntax to extract the
+appropriate weather data from the `boonah` weather data object.
 
 ``` r
 ## Growing degree and stress days
@@ -291,7 +302,7 @@ crop2 <- crop %>%
            map2_dbl(flower_date, harvest_date, function(x, y)
              stress_days_over(boonah, startdate = x, enddate = y)))
 print(crop2, n=5)
-#: # A tibble: 10 x 5
+#: # A tibble: 10 × 5
 #:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_har…
 #:   <date>      <date>      <date>                    <dbl>                  <dbl>
 #: 1 2019-08-25  2019-10-14  2019-11-03                 76.4                     10
@@ -315,16 +326,48 @@ crop3 <- crop %>%
            map2_dbl(flower_date, harvest_date, function(x, y)
              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 print(crop3, n=5)
-#: # A tibble: 10 x 5
-#:   sowing_date flower_date harvest_date totalrain_post_sow_… meanrad_flower_harv…
-#:   <date>      <date>      <date>                      <dbl>                <dbl>
-#: 1 2019-08-25  2019-10-14  2019-11-03                   10.5                 22.9
-#: 2 2019-09-20  2019-11-09  2019-11-29                    0                   25.5
-#: 3 2019-12-18  2020-02-06  2020-02-26                    0                   16.5
-#: 4 2020-01-15  2020-03-06  2020-03-26                   88.4                 15.5
-#: 5 2020-02-15  2020-04-06  2020-04-26                   20.7                 16.6
+#: # A tibble: 10 × 5
+#:   sowing_date flower_date harvest_date totalrain_post_sow_7d meanrad_flower_har…
+#:   <date>      <date>      <date>                       <dbl>               <dbl>
+#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5                22.9
+#: 2 2019-09-20  2019-11-09  2019-11-29                     0                  25.5
+#: 3 2019-12-18  2020-02-06  2020-02-26                     0                  16.5
+#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4                15.5
+#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7                16.6
 #: # … with 5 more rows
 ```
+
+For large datasets these calculations can be time consuming. One
+approach that may prove useful is to use the `furrr` package which is a
+bridge between purrr‘s family of mapping functions and future‘s parallel
+processing capabilities. If speed is an issue, then it is worth trying
+because it is simple to implement. While some tweaking may prove useful,
+it seems that the defaults work pretty well (see `?future::plan`). After
+setting the number of workers, then simply replace mapping functions by
+putting `future_` at the front of the name of the mapping function. For
+instance, `map2_dbl` is replaced with `future_map2_dbl`. While the
+results are not shown here, to add total rain and mean radiation as
+before, use something like:
+
+``` r
+ptm <- proc.time() # Start the clock!
+## set number of 'furrr' workers
+library(furrr)
+plan(multisession, workers = 2)
+## Totals and daily means
+crop3 <- crop %>%
+  mutate(totalrain_post_sow_7d =
+           future_map_dbl(sowing_date, function(x)
+             cumulative(boonah, var = rain, startdate = x, ndays = 7)),
+         meanrad_flower_harvest =
+           future_map2_dbl(flower_date, harvest_date, function(x, y)
+             daily_mean(boonah, var = radn, startdate = x, enddate = y)))
+print(crop3, n=5)
+proc.time() - ptm # Stop the clock!
+```
+
+For recent work, we have found that setting 4 workers was optimal but
+this will of course depend on your setup.
 
 ## Day of year calculations
 
@@ -335,28 +378,28 @@ are easily manipulated using the `lubridate` package.
 
 The `day_of_year` function is used to convert a date to the day of year,
 which could be based on the calendar year starting on 1 January, the
-Australian financial year starting on 1 June or an arbitrary starting
+Australian financial year starting on 1 July or an arbitrary starting
 date.
 
 ``` r
 ##  Day of Calendar Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")))
-#: [1] 366 153   1
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), return_year = TRUE)
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")))
+#: [1] 366 183   1
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), return_year = TRUE)
 #:   day year
 #: 1 366 2020
-#: 2 153 2020
+#: 2 183 2020
 #: 3   1 2020
 
 ## Day of Financial Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), type = "financial")
-#: [1] 214   1 215
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), type = "fin",
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "financial")
+#: [1] 184   1 185
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "fin",
             return_year = TRUE)
 #:   day  fin_year
-#: 1 214 2020/2021
+#: 1 184 2020/2021
 #: 2   1 2020/2021
-#: 3 215 2019/2020
+#: 3 185 2019/2020
 ```
 
 To convert a day of year to a date, use `date_from_day_year` noting that
@@ -368,20 +411,20 @@ financial year or an arbitrary starting date.
 date_from_day_year(21,2021)
 #: [1] "2021-01-21"
 date_from_day_year(21,2021, type = "fina")
-#: [1] "2021-06-21"
+#: [1] "2021-07-21"
 ```
 
 Finally, while we can use `day_of_year` to obtain the day of the current
 year, if a crop is planted near the end of the year then we way wish to
-know the day of harvest which will fall in the next year.
-`day_of_harvest` provides the day of year in the year of sowing which
-can be used to calculate other quantities like day of flowering etc.
-Thus, quantities like the number of days between harvest and sowing are
-easily calculated taking into account that the crop may grow past the
-end of the year. Alternatively, these quantities are also easily
+know the day of harvest which will fall in the next year. The
+`day_of_harvest` function provides the day of year in the year of sowing
+which can be used to calculate other quantities like day of flowering
+etc. Thus, quantities like the number of days between harvest and sowing
+are easily calculated taking into account that the crop may grow past
+the end of the year. Alternatively, these quantities are also easily
 computed directly on the dates by using the `lubridate` package. For
 instance the convenience function `cropgrowdays::number_of_days` is
-essentially a call to `as.numeric(finish_date - start_date)`.
+essentially a call to `as.numeric(finish_date - start_date) + 1`.
 
 ``` r
 ## Day of harvest using the first day of the year of sowing as the base day
@@ -391,6 +434,12 @@ day_of_harvest(x = ymd("2021-01-05"), sowing = ymd("2020-12-20"))  # > 366
 #: [1] 371
 ```
 
+Note that the first calculation simply assumes the first day of the year
+is 1 January 2021 whereas the second calculation yields a result
+assuming the first day of the year is 1 January 2020. Hence, since 2020
+is a leap year containing 366 days, then the day of harvest is
+366 + 5 = 371.
+
 ## Note
 
 The **cropgrowdays** `R` package is under development and could change
@@ -398,16 +447,16 @@ rapidly at various times.
 
 ## References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-anonGDD">
+<div id="ref-anonGDD" class="csl-entry">
 
 Anon. 2021. “GDD.” *Farmwest*.
 <https://farmwest.com/climate/calculator-information/gdd/>.
 
 </div>
 
-<div id="ref-baskerville1969">
+<div id="ref-baskerville1969" class="csl-entry">
 
 Baskerville, G. L., and P. Emin. 1969. “Rapid Estimation of Heat
 Accumulation from Maximum and Minimum Temperatures.” *Ecology* 50 (3):
@@ -415,7 +464,7 @@ Accumulation from Maximum and Minimum Temperatures.” *Ecology* 50 (3):
 
 </div>
 
-<div id="ref-mcmaster1997">
+<div id="ref-mcmaster1997" class="csl-entry">
 
 McMaster, Gregory S, and W W Wilhelm. 1997. “Growing Degree-Days: One
 Equation, Two Interpretations.” *Agricultural and Forest Meteorology* 87
@@ -423,14 +472,14 @@ Equation, Two Interpretations.” *Agricultural and Forest Meteorology* 87
 
 </div>
 
-<div id="ref-pollen2019">
+<div id="ref-pollen2019" class="csl-entry">
 
 Nowosad, Jakub. 2019. *Pollen: Analysis of Aerobiological Data*.
 <https://CRAN.R-project.org/package=pollen>.
 
 </div>
 
-<div id="ref-agroclim2020">
+<div id="ref-agroclim2020" class="csl-entry">
 
 Serrano-Notivoli, Roberto. 2020. *Agroclim: Climatic Indices for
 Agriculture*. <https://CRAN.R-project.org/package=agroclim>.

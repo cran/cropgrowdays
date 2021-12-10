@@ -21,7 +21,7 @@ calculation the date}
 \item{type}{A character string specifying the type of
 year. \dQuote{calendar} is a calendar year starting on 1
 January, \dQuote{financial} an Australian financial year
-beginning on 1 June and \dQuote{other} is for a year starting on
+beginning on 1 July and \dQuote{other} is for a year starting on
 another date which is specified in \code{base}. Default:
 \dQuote{calendar}}
 
@@ -37,7 +37,7 @@ the day of the year and the year
 \description{
 \code{date_from_day_of_year} returns the date using the day of the
 year and a year for a calendar or financial year. The first day of
-the year is 1 January for the calendar year, 1 June for the
+the year is 1 January for the calendar year, 1 July for the
 Australian financial year or can be specified. Alternatively, the
 first day of the year can be any day of the year if desired.
 }

@@ -5,17 +5,17 @@ data are easily manipulated using the `lubridate` package.
 
 The `day_of_year` function is used to convert a date to the day of
 year, which could be based on the calendar year starting on 1 January,
-the Australian financial year starting on 1 June or an arbitrary
+the Australian financial year starting on 1 July or an arbitrary
 starting date.
 
 ```{r, day-of-year}
 ##  Day of Calendar Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")))
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), return_year = TRUE)
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")))
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), return_year = TRUE)
 
 ## Day of Financial Year
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), type = "financial")
-day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")), type = "fin",
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "financial")
+day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "fin",
             return_year = TRUE)
 ```
 
@@ -32,18 +32,24 @@ date_from_day_year(21,2021, type = "fina")
 Finally, while we can use `day_of_year` to obtain the day of the
 current year, if a crop is planted near the end of the year then we
 way wish to know the day of harvest which will fall in the next
-year. `day_of_harvest` provides the day of year in the year of sowing
-which can be used to calculate other quantities like day of flowering
-etc. Thus, quantities like the number of days between harvest and
-sowing are easily calculated taking into account that the crop may
-grow past the end of the year. Alternatively, these quantities are
-also easily computed directly on the dates by using the `lubridate`
-package. For instance the convenience function
+year. The `day_of_harvest` function provides the day of year in the
+year of sowing which can be used to calculate other quantities like
+day of flowering etc. Thus, quantities like the number of days between
+harvest and sowing are easily calculated taking into account that the
+crop may grow past the end of the year. Alternatively, these
+quantities are also easily computed directly on the dates by using the
+`lubridate` package. For instance the convenience function
 `cropgrowdays::number_of_days` is essentially a call to
-`as.numeric(finish_date - start_date)`.
+`as.numeric(finish_date - start_date) + 1`.
 
 ```{r, day-of-harvest}
 ## Day of harvest using the first day of the year of sowing as the base day
 day_of_year(ymd("2021-01-05"))
 day_of_harvest(x = ymd("2021-01-05"), sowing = ymd("2020-12-20"))  # > 366
 ```
+
+Note that the first calculation simply assumes the first day of the
+year is 1 January 2021 whereas the second calculation yields a result
+assuming the first day of the year is 1 January 2020. Hence, since
+2020 is a leap year containing 366 days, then the day of harvest is
+$366 + 5 = 371$.

@@ -1,7 +1,7 @@
 ##' Calculate day of year from a date
 ##'
 ##' \code{day_of_year} returns the day of the year as an integer. The
-##' first day of the year is 1 January for the calendar year, 1 June
+##' first day of the year is 1 January for the calendar year, 1 July
 ##' for the Australian financial year or can be specified as any day
 ##' of the year if desired.
 ##'
@@ -9,7 +9,7 @@
 ##' @param type A character string specifying the type of
 ##'   year. \dQuote{calendar} is a calendar year starting on 1
 ##'   January, \dQuote{financial} an Australian financial year
-##'   beginning on 1 June and \dQuote{other} is for a year starting on
+##'   beginning on 1 July and \dQuote{other} is for a year starting on
 ##'   another date which is specified in \code{base}. Default:
 ##'   \dQuote{calendar}
 ##' @param return_year A logical indicating whether to return the year
@@ -37,20 +37,21 @@
 ##' day_of_year(ymd("2020-12-31"))
 ##' day_of_year(ymd("2021-12-31"))
 ##' day_of_year(ymd("2020-12-31"), return_year = TRUE)
-##' day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")))
-##' day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+##' day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")))
+##' day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
 ##'             return_year = TRUE)
 ##'
 ##' ## Day of Financial Year
-##' day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+##' day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
 ##'             type = "financial")
-##' day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+##' day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
 ##'             type = "financial", return_year = TRUE)
+##' day_of_year(x = ymd("2021-09-05"), type = "financial") # 67
 ##'
 ##' ## Specify the year starts on 1 September
-##' day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+##' day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
 ##'             type = "other", base = list(d = 1, m = 9))
-##' day_of_year(ymd(c("2020-12-31", "2020-06-01", "2020-01-01")),
+##' day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")),
 ##'             type = "other", base = list(d = 1, m = 9), return_year = TRUE)
 ##' 
 ##' @seealso \code{\link{date_from_day_year}} for converting day of
@@ -69,9 +70,9 @@ day_of_year <- function(x, type = c("calendar", "financial", "other"),
   if (type == "calendar") day_one <- lubridate::ymd(paste0(year_x, "-01-01"))
   if (type == "financial")
   {
-    day_one <- lubridate::ymd(paste0(year_x, "-06-01"))
-    year_x <- year_x - (x <  day_one)  # previous year if before 1 June
-    day_one <- lubridate::ymd(paste0(year_x, "-06-01"))
+    day_one <- lubridate::ymd(paste0(year_x, "-07-01"))
+    year_x <- year_x - (x <  day_one)  # previous year if before 1 July
+    day_one <- lubridate::ymd(paste0(year_x, "-07-01"))
   }
   if (type == "other")
   {
@@ -116,7 +117,7 @@ day_of_year <- function(x, type = c("calendar", "financial", "other"),
 ##'
 ##' \code{date_from_day_of_year} returns the date using the day of the
 ##' year and a year for a calendar or financial year. The first day of
-##' the year is 1 January for the calendar year, 1 June for the
+##' the year is 1 January for the calendar year, 1 July for the
 ##' Australian financial year or can be specified. Alternatively, the
 ##' first day of the year can be any day of the year if desired.
 ##'
@@ -153,7 +154,7 @@ date_from_day_year <- function(day, year,
   ## set up base date(s) and return date
   type <- match.arg(type)
   if (type == "calendar") return(as.Date(day - 1, paste0(year, "-01-01")))
-  if (type == "financial") return(as.Date(day - 1, paste0(year, "-06-01")))
+  if (type == "financial") return(as.Date(day - 1, paste0(year, "-07-01")))
   if (type == "other")
   {
     if (!is.list(base))
@@ -178,18 +179,23 @@ date_from_day_year <- function(day, year,
 
 ##' The day of harvest in the year of sowing
 ##'
-##' \code{day_of_harvest} calculates day of year if harvest goes past
-##' end of year (or not). For instance, if the sowing date is at the
-##' end of the year, then the harvest date early in the next year (as
-##' a day of year) will be be smaller than the sowing date (as a day
-##' of the year). This function rectifies this situation by
-##' calculating the harvest date as the day of year in the previous
-##' year and so would be greater than 366 in this instance. Of course,
-##' this is not necessary if the sowing and harvest dates are in the
-##' same year.
+##' \code{day_of_harvest} calculates the day of year of harvest (or
+##' another quantity such as petal fall) if harvest occurs in the next
+##' year after sowing. For instance, if the sowing date is near the
+##' end of the year, then the harvest date will fall in the next year.
+##' Hence, the harvest day (as a day of year) will be be smaller than
+##' the sowing date (as a day of the year). The \code{day_of_harvest}
+##' function rectifies this situation by calculating the harvest date
+##' as the day of year in the previous year. Hence, the resulting day
+##' of year will be greater than 366. Of course, this is not necessary
+##' if the sowing and harvest dates are in the same year, in which
+##' case \code{\link{day_of_year}} will provide exactly the same
+##' result.
 ##'
 ##' @param x A harvest \code{\link{Date}} used for calculation of the day of the year.
 ##' @param sowing A sowing \code{\link{Date}} used for calculation.
+##' @param verbose Logical to indicate whether to indicate data errors.
+##'        (Default:FALSE)
 ##' @inheritParams day_of_year
 ##' 
 ##' @return An \code{numeric} vector containing the day of harvest in
@@ -198,39 +204,55 @@ date_from_day_year <- function(day, year,
 ##' 
 ##' @examples
 ##' library(lubridate)
-##' day_of_harvest(x = ymd("2020-06-15"), sowing = ymd("2020-06-01"))
-##' day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2021-06-01"))
-##' day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2020-06-01"))
+##' day_of_harvest(x = ymd("2020-06-15"), sowing = ymd("2020-06-01")) # leap year
+##' day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2021-06-01")) # not
+##' day_of_harvest(x = ymd("2021-06-15"), sowing = ymd("2020-06-01")) # 366+166
 ##' day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"))
 ##' day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
 ##'                type = "financial")
+##' day_of_harvest(x = ymd("2021-09-05"), sowing = ymd("2021-01-28"),
+##'                type = "financial") # 67 + 365
+##' ## number_of_days(ymd("2021-02-05"), ymd("2020-09-01")) + 1
 ##' day_of_harvest(x = ymd("2021-02-05"), sowing = ymd("2021-01-28"),
 ##'                type = "other", base = list(m = 9, day = 1))
 ##' @export
 day_of_harvest <- function(x, sowing,
                            type = c("calendar", "financial", "other"),
-                           base = NULL)
+                           base = NULL, verbose = FALSE)
 {
   ## simple checks  
   if (class(x) != "Date") stop("Error: 'x' must be of class Date")
   if (class(sowing) != "Date") stop("Error: 'sowing' must be of class Date")
-  if (x < sowing) stop("Error: 'x' must be later than 'sowing'")
+  ## NB: x < sowing, needs to be vectorised
+  if (any(x < sowing)) {
+    if (verbose) {
+      data_errors <- tibble(x = x, sowing = sowing) %>% filter(x < sowing) 
+      print(data_errors, n = dim(data_errors)[1])
+    }
+    ## Should this be a Warning?
+    stop("Error: 'x' must be later than 'sowing'")
+  }
+  
   ## set up base date(s) and return date
   type <- match.arg(type)
   year_sowing <- lubridate::year(sowing)
-  day_x <- day_of_year(x, type = type, base = base)
+
+  ## 1/12/2021 simplified calculations
+  ## 1. set up base date as vector
+  ## 2. return difference in days (x - base date) + 1
 
   ## add no. days in year if past end of year else return day of year
   ## NB: could rewrite as switch - much cleaner
   if (type == "calendar")
   {
     first_day_of_year <- as.Date(paste0(year_sowing, "-01-01"))
-    first_day_next_year <- as.Date(paste0(year_sowing + 1, "-01-01"))
   }
   if (type == "financial")
   {
-    first_day_of_year <- as.Date(paste0(year_sowing, "-06-01"))
-    first_day_next_year <- as.Date(paste0(year_sowing + 1, "-06-01"))
+    first_day_of_year <- lubridate::ymd(paste0(year_sowing, "-07-01"))
+    ## use previous year if x before 1 July
+    year_sowing <- year_sowing - (sowing <  first_day_of_year)
+    first_day_of_year <- lubridate::ymd(paste0(year_sowing, "-07-01"))
   }
   if (type == "other")
   {
@@ -252,16 +274,12 @@ day_of_harvest <- function(x, sowing,
     }
     first_day_of_year <-
       as.Date(paste0(year_sowing,  "-", base_month, "-", base_day))
-    first_day_next_year <-
-      as.Date(paste0(year_sowing + 1, "-", base_month, "-", base_day))
+    ## use previous year if x before base date of year
+    year_sowing <- year_sowing - (sowing <  first_day_of_year)
+    first_day_of_year <- lubridate::ymd(paste0(year_sowing, "-", base_month,
+                                               "-", base_day))
   }
-
-  if (x >= first_day_next_year)
-  {
-    calc_day <- day_x + as.numeric(first_day_next_year - first_day_of_year)
-  } else {
-    calc_day <- day_x
-  }
+  calc_day <- number_of_days(x, first_day_of_year) + 1
   calc_day
 }
 

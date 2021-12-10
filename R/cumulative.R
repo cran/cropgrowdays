@@ -41,7 +41,9 @@
 ##' cumulative(boonah, var = rain, startdate = crop$flower_date[4],
 ##'                     enddate = crop$harvest_date[4])
 ##' 
-##' ## Add selected totals to crop tibble
+##' ## Add selected totals of weather variables in 'boonah' to 'crop'' tibble
+##' ## using 'map2_dbl' from the 'purrr' package
+##' ## Note: using equivalent 'furrr' functions can speed up calculations 
 ##' crop2 <- crop %>%
 ##'   mutate(totalrain_post_sow_7d =
 ##'           map_dbl(sowing_date, function(x)

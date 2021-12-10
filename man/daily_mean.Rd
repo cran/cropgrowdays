@@ -77,7 +77,9 @@ daily_mean(boonah, enddate = crop$harvest_date[4], ndays = 3,
 daily_mean(boonah, startdate = crop$flower_date[4],
                     enddate = crop$harvest_date[4], monitor = TRUE)
 
-## Add selected daily means to crop tibble
+## Add selected daily means of weather variables in 'boonah' to 'crop'
+## tibble using 'map2_dbl' from the 'purrr' package
+## Note: using equivalent 'furrr' functions can speed up calculations 
 crop2 <- crop \%>\%
   mutate(mean_maxtemp_post_sow_7d =
           map_dbl(sowing_date, function(x)

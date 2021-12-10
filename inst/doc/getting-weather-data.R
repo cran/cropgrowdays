@@ -4,6 +4,9 @@ knitr::opts_chunk$set(
   comment = "#:"
 )
 
+## ----cran-installation, eval = FALSE------------------------------------------
+#  install.packages("cropgrowdays")
+
 ## ----gl-installation, eval = FALSE--------------------------------------------
 #  ## if you don't have 'remotes' installed, automatically install it
 #  if (!require("remotes")) {

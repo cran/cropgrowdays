@@ -26,8 +26,8 @@ case of *agroclim::gdd* assume a more limited growing season since the
 function appears to be tailored to grapes, further variations on the
 formula above as outlined in @baskerville1969 are available.
 
-To calculate the growing degree days at Boonah between flowering and
-harvest use:
+To calculate the growing degree days at Boonah using weather data from
+the `boonah` object between flowering and harvest use:
 
 ```{r gdd}
 ## Growing Degree Days between two dates
@@ -92,21 +92,28 @@ the start and end dates or specify one of these dates and also the
 number of days after or before, respectively.
 
 ```{r weather1}
-## Extract rainfall data using the %>% pipe operator
+## Extract daily rainfall & maximum temperature data using %>% pipe operator
 boonah %>%
-  weather_extract(rain, date = date_met, startdate = ymd("2019-08-16"),
+  weather_extract(c(rain, maxt), date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
 ```
 
 ## Adding agrometeorological variables to dataframes
 
-We can add columns using weather calculations to the `crop` tibble
-using the `tidyverse` functions `map_dbl` if for one varying date and
-`map_dbl2` for varying start and end dates. For more than two varying
-parameters we can use `pmap`. These functions are from the `purrr` library.
+We can add agrometeorological variables to the `crop` tibble using the
+`tidyverse` functions `map_dbl`, `map_dbl2` and `pmap` to calculate
+new columns employing the weather data from the `boonah` object. Use
+`map_dbl` for one varying date and `map_dbl2` for varying start and
+end dates. For more than two varying parameters, which may be
+necessary if for instance our weather object contained multiple
+locations or sites, then we can use `pmap`. These functions are from
+the `purrr` library. Alternatively, we could use functions from the
+`apply` family such as `mapply` from the `base` package.
 
 To add growing degree days 7 days post sowing and the number of stress
-days above $30^\circ C$ from flowering to harvest we employ:
+days above $30^\circ C$ from flowering to harvest to the `crop`
+tibble, then we employ the following `mutate` syntax to extract the
+appropriate weather data from the `boonah` weather data object.
 
 ```{r, add2crop-gdd}
 ## Growing degree and stress days
@@ -134,3 +141,37 @@ crop3 <- crop %>%
              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 print(crop3, n=5)
 ```
+
+For large datasets these calculations can be time consuming. One
+approach that may prove useful is to use the `furrr` package which is
+a bridge between purrr‘s family of mapping functions and future‘s
+parallel processing capabilities. If speed is an issue, then it is
+worth trying because it is simple to implement. While some tweaking
+may prove useful, it seems that the defaults work pretty well (see
+`?future::plan`). After setting the number of workers, then simply
+replace mapping functions by putting `future_` at the front of the
+name of the mapping function. For instance, `map2_dbl` is replaced
+with `future_map2_dbl`. While the results are not shown here, to add
+total rain and mean radiation as before, use something like:
+
+
+```{r, eval=FALSE, add2crop-totrain-furrr}
+ptm <- proc.time() # Start the clock!
+## set number of 'furrr' workers
+library(furrr)
+plan(multisession, workers = 2)
+## Totals and daily means
+crop3 <- crop %>%
+  mutate(totalrain_post_sow_7d =
+           future_map_dbl(sowing_date, function(x)
+             cumulative(boonah, var = rain, startdate = x, ndays = 7)),
+         meanrad_flower_harvest =
+           future_map2_dbl(flower_date, harvest_date, function(x, y)
+             daily_mean(boonah, var = radn, startdate = x, enddate = y)))
+print(crop3, n=5)
+proc.time() - ptm # Stop the clock!
+```
+
+For recent work, we have found that setting 4 workers was optimal but
+this will of course depend on your setup.
+
