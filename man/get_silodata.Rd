@@ -10,7 +10,8 @@ get_silodata(
   email,
   START = "20201101",
   FINISH = "20201231",
-  FORMAT = "APSIM",
+  FORMAT = c("apsim", "fao56", "standard", "allmort", "ascepm", "evap_span", "span",
+    "all2016", "alldata", "p51", "rainonly", "monthly", "cenw"),
   PASSWORD = "apitest",
   extras = NULL,
   URL = "https://www.longpaddock.qld.gov.au/cgi-bin/silo/DataDrillDataset.php"
@@ -33,10 +34,11 @@ with no spaces. Default: \dQuote{20201101}}
 with no spaces. Default: \dQuote{20201231}}
 
 \item{FORMAT}{of data file required. While this function was
-originally constructed to obtain \code{APSIM} format, other
-formats are available. See
+originally constructed to obtain \code{apsim} format, other
+formats are now available but not as tested.  \code{rainman} is
+not included since it returns six separate files. See
 \url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}
-Default: \dQuote{APSIM}}
+Default: \dQuote{apsim}}
 
 \item{PASSWORD}{Default: \dQuote{apitest}}
 
@@ -61,12 +63,12 @@ provides data sets for a range of climate variables. SILO is
 hosted by the Science and Technology Division of the Queensland
 Government's Department of Environment and Science (DES). For more
 information please see
-\url{https://www.longpaddock.qld.gov.au/silo/about}. While several
-file formats are available, we use the APSIM format. Other formats
-may be produced although the function may need to be modified if
-the arguments do not fully accommodate the specifications. Please
-see
-\url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}
+\url{https://www.longpaddock.qld.gov.au/silo/about}. A number of
+data formats are available via the \code{FORMAT} option, but we
+have mainly used the \dQuote{apsim} format. Other formats may be
+retrieved but these are largely untested. Please lodge an issue if
+there are problems. For details, please see
+\url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}.
 SILO products are provided free of charge to the public for use
 under the Creative Commons Attribution 4.0 license and appear to
 be subject to fair use limits. Note that SILO may be unavailable
@@ -94,6 +96,23 @@ boonah_data2 <-
   get_silodata(latitude = -27.9927, longitude = 152.6906,
                email = "MY_EMAIL_ADDRESS",
                START = "20190101", FINISH = "20200531",
+               extras = list(Sitename = "Boonah"))
+## Example 3: Replace MY_EMAIL_ADDRESS below with yours - adds extra column
+##            Latitude and Longitude are numeric.
+##            Retreives all Morton hydrological evapotranspirations
+boonah_data3 <-
+  get_silodata(latitude = -27.9927, longitude = 152.6906,
+               email = "MY_EMAIL_ADDRESS", FORMAT  =  "allmort",
+               START = "20190101", FINISH = "20190115",
+               extras = list(Sitename = "Boonah"))
+## Example 4: Replace MY_EMAIL_ADDRESS below with yours - adds extra column
+##            Latitude and Longitude are numeric. Retreives two months of
+##            total rainfall and evaporation and means for max/min
+##            temperatures, solar radiation and vapour pressure
+boonah_data4 <-
+  get_silodata(latitude = -27.9927, longitude = 152.6906,
+               email = "drpetebaker@gmail.com", FORMAT = "monthly",
+               START = "20190101", FINISH = "20190228",
                extras = list(Sitename = "Boonah"))
 }
 

@@ -11,7 +11,7 @@ get_multi_silodata(
   email,
   START = "20201101",
   FINISH = "20201231",
-  FORMAT = "APSIM",
+  FORMAT = "apsim",
   PASSWORD = "apitest",
   URL = "https://www.longpaddock.qld.gov.au/cgi-bin/silo/DataDrillDataset.php"
 )
@@ -37,10 +37,11 @@ with no spaces. Default: \dQuote{20201101}}
 with no spaces. Default: \dQuote{20201231}}
 
 \item{FORMAT}{of data file required. While this function was
-originally constructed to obtain \code{APSIM} format, other
-formats are available. See
+originally constructed to obtain \code{apsim} format, other
+formats are now available but not as tested.  \code{rainman} is
+not included since it returns six separate files. See
 \url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}
-Default: \dQuote{APSIM}}
+Default: \dQuote{apsim}}
 
 \item{PASSWORD}{Default: \dQuote{apitest}}
 
@@ -73,6 +74,7 @@ two_sites  <-
                      longitude = c(151.00, 152.00),
                      Sitename = c("Site_1", "Site_2"),
                      START = "20201101", FINISH = "20201105",
+                     FORMAT = "allmort",
                      email = "MY_EMAIL_ADDRESS")
 two_sites
 }

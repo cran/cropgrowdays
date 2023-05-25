@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 #  install_gitlab("petebaker/cropgrowdays", build_vignettes = TRUE)
 
 ## ----setup--------------------------------------------------------------------
-suppressMessages(library(tidyverse))
 suppressMessages(library(lubridate))
 library(cropgrowdays)
 
@@ -53,29 +52,29 @@ daily_mean(boonah, enddate = crop$flower_date[4], ndays = 3,
 
 ## ----weather1-----------------------------------------------------------------
 ## Extract daily rainfall & maximum temperature data using %>% pipe operator
-boonah %>%
+boonah |>
   weather_extract(c(rain, maxt), date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
 
 ## ---- add2crop-gdd------------------------------------------------------------
 ## Growing degree and stress days
-crop2 <- crop %>%
-  mutate(gddays_post_sow_7d =
-           map_dbl(sowing_date, function(x)
+crop2 <- crop |>
+  dplyr::mutate(gddays_post_sow_7d =
+           purrr::map_dbl(sowing_date, function(x)
              growing_degree_days(boonah, startdate = x, ndays = 7)),
          stressdays_flower_harvest =
-           map2_dbl(flower_date, harvest_date, function(x, y)
+           purrr::map2_dbl(flower_date, harvest_date, function(x, y)
              stress_days_over(boonah, startdate = x, enddate = y)))
 print(crop2, n=5)
 
 ## ---- add2crop-totrain--------------------------------------------------------
 ## Totals and daily means
-crop3 <- crop %>%
-  mutate(totalrain_post_sow_7d =
-           map_dbl(sowing_date, function(x)
+crop3 <- crop |>
+  dplyr::mutate(totalrain_post_sow_7d =
+           purrr::map_dbl(sowing_date, function(x)
              cumulative(boonah, var = rain, startdate = x, ndays = 7)),
          meanrad_flower_harvest =
-           map2_dbl(flower_date, harvest_date, function(x, y)
+           purrr::map2_dbl(flower_date, harvest_date, function(x, y)
              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 print(crop3, n=5)
 
@@ -85,8 +84,8 @@ print(crop3, n=5)
 #  library(furrr)
 #  plan(multisession, workers = 2)
 #  ## Totals and daily means
-#  crop3 <- crop %>%
-#    mutate(totalrain_post_sow_7d =
+#  crop3 <- crop |>
+#    dplyr::mutate(totalrain_post_sow_7d =
 #             future_map_dbl(sowing_date, function(x)
 #               cumulative(boonah, var = rain, startdate = x, ndays = 7)),
 #           meanrad_flower_harvest =

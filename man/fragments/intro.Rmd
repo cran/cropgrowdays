@@ -28,14 +28,16 @@ addition, functions are provided to convert days of the year to dates,
 and *vice-versa*.
 
 We recommend using the **cropgrowdays** package in conjunction with
-the **tidyverse** and **lubridate** packages.
+the **tidyverse** and **lubridate** packages. Additionally, we also
+recommend using the **furrr** package to speed up adding
+agrometeorological variables to large data frames. For this document,
+we only use the **lubridate** package as follows.
 
 ```{r setup}
-suppressMessages(library(tidyverse))
 suppressMessages(library(lubridate))
 library(cropgrowdays)
 ```
-Note that if you are not familiar with these packages then, in order
+Note that if you are not familiar with the `lubridate` package, then in order
 to see which functions are provided and which functions conflict with
 other packages, initially it may best not to suppress messages using
 `suppressMessages`.

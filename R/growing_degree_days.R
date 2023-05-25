@@ -55,7 +55,9 @@
 ##' 
 ##' @examples
 ##' ## Selected calculations
-##' library(tidyverse)
+##' ## library(tidyverse)  # only purrr used here for crop2 example
+##' library(dplyr)
+##' library(purrr)
 ##' growing_degree_days(boonah, enddate = crop$flower_date[4], ndays = 3,
 ##'                     varmax = maxt, varmin = mint,
 ##'                     monitor = TRUE)
@@ -69,13 +71,13 @@
 ##' ## Add selected growing degree days at 'boonah' to 'crop' tibble
 ##' ## using 'map2_dbl' from the 'purrr' package
 ##' ## Note: using equivalent 'furrr' functions can speed up calculations 
-##' crop2 <- crop %>%
+##' crop2 <- crop |>
 ##'   mutate(gddays8_post_sow_7d =
-##'           map_dbl(sowing_date, function(x)
+##'           purrr::map_dbl(sowing_date, function(x)
 ##'             growing_degree_days(boonah, startdate = x, ndays = 7,
 ##'                                 base_temp = 8)),
 ##'           gddays_flower_harvest =
-##'             map2_dbl(flower_date, harvest_date, function(x, y)
+##'             purrr::map2_dbl(flower_date, harvest_date, function(x, y)
 ##'               growing_degree_days(boonah, startdate = x, enddate = y)))
 ##' crop2
 ##' 
@@ -139,23 +141,23 @@ growing_degree_days <- function(data, varmax = NULL, varmin = NULL,
   ##     counter depreciation problems which may happen with tidyverse
   if (is.null(datevar))
   {
-  temp_max <- data %>%
+  temp_max <- data |>
     weather_extract(var = all_of(varmax_n), datevar = NULL, ndays = ndays,
                     enddate = enddate, startdate = startdate,
                     monitor = monitor, return.dates = FALSE,
                     warn.consecutive = warn.consecutive)
-  temp_min <- data %>%
+  temp_min <- data |>
     weather_extract(var = all_of(varmin_n), datevar = NULL, ndays = ndays,
                     enddate = enddate, startdate = startdate,
                     monitor = monitor, return.dates = FALSE,
                     warn.consecutive = warn.consecutive)
   } else {
-  temp_max <- data %>%
+  temp_max <- data |>
     weather_extract(var = all_of(varmax_n), datevar = {{datevar}},
                     ndays = ndays, enddate = enddate, startdate = startdate,
                     return.dates = FALSE, monitor = monitor,
                     warn.consecutive = warn.consecutive)    
-  temp_min <- data %>%
+  temp_min <- data |>
     weather_extract(var = all_of(varmin_n), datevar = {{datevar}},
                     ndays = ndays, enddate = enddate, startdate = startdate,
                     return.dates = FALSE, monitor = monitor,

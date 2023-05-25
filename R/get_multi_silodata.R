@@ -24,7 +24,6 @@
 ##'   \code{day}. The \code{Sitename} variable contains the name of
 ##'   each site.
 ##'
-##' @importFrom magrittr %>%
 ##' @importFrom utils read.delim
 ##' @importFrom tibble tibble
 ##' @examples
@@ -35,6 +34,7 @@
 ##'                      longitude = c(151.00, 152.00),
 ##'                      Sitename = c("Site_1", "Site_2"),
 ##'                      START = "20201101", FINISH = "20201105",
+##'                      FORMAT = "allmort",
 ##'                      email = "MY_EMAIL_ADDRESS")
 ##' two_sites
 ##' }
@@ -44,7 +44,7 @@
 get_multi_silodata <-
   function(latitude,  longitude, Sitename, email,
            START = "20201101", FINISH = "20201231",
-           FORMAT = "APSIM", PASSWORD = "apitest",
+           FORMAT = "apsim", PASSWORD = "apitest",
            URL = "https://www.longpaddock.qld.gov.au/cgi-bin/silo/DataDrillDataset.php")
 {
   if (length(latitude) != length(longitude))

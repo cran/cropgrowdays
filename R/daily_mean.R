@@ -26,7 +26,9 @@
 ##' 
 ##' @examples
 ##' ##  Selected calculations
-##' library(tidyverse)
+##' ## library(tidyverse)   # only purrr used here for crop2 example
+##' library(dplyr)
+##' library(purrr)
 ##' daily_mean(boonah, enddate = crop$flower_date[4], ndays = 3,
 ##'                     monitor = TRUE)
 ##' daily_mean(boonah, enddate = crop$harvest_date[4], ndays = 3,
@@ -37,12 +39,12 @@
 ##' ## Add selected daily means of weather variables in 'boonah' to 'crop'
 ##' ## tibble using 'map2_dbl' from the 'purrr' package
 ##' ## Note: using equivalent 'furrr' functions can speed up calculations 
-##' crop2 <- crop %>%
+##' crop2 <- crop |>
 ##'   mutate(mean_maxtemp_post_sow_7d =
-##'           map_dbl(sowing_date, function(x)
+##'           purrr::map_dbl(sowing_date, function(x)
 ##'             daily_mean(boonah, var = maxt, startdate = x, ndays = 7)),
 ##'           mean_rad_flower_harvest =
-##'             map2_dbl(flower_date, harvest_date, function(x, y)
+##'             purrr::map2_dbl(flower_date, harvest_date, function(x, y)
 ##'               daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 ##' crop2
 ##'
@@ -84,13 +86,13 @@ daily_mean <- function(data, var = NULL, datevar = NULL, ndays = 5,
 
   if (is.null(datevar))
   {
-  tmp_data <- data %>%
+  tmp_data <- data |>
     weather_extract(var = all_of(var_n), datevar = NULL, ndays = ndays,
                     enddate = enddate, startdate = startdate,
                     return.dates = FALSE, monitor = monitor,
                     warn.consecutive = TRUE)
   } else {
-  tmp_data <- data %>%
+  tmp_data <- data |>
     weather_extract(var = all_of(var_n), datevar = {{datevar}}, ndays = ndays,
                     enddate = enddate, startdate = startdate,
                     return.dates = FALSE, monitor = monitor,

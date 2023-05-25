@@ -25,21 +25,20 @@
 ##' @return A tibble (data frame) of extracted weather data
 ##'
 ##' @examples
-##' library(tidyverse)
 ##' library(lubridate)
-##' boonah %>%
+##' boonah |>
 ##' weather_extract(rain, date = date_met, startdate = ymd("2019-08-16"),
 ##'                   enddate = ymd("2019-08-21"))
-##' boonah %>%
+##' boonah |>
 ##'   weather_extract(rain, startdate = ymd("2019-08-16"),
 ##'                   enddate = ymd("2019-08-21"))
-##' boonah %>%
+##' boonah |>
 ##'   weather_extract(maxt, date = date_met, startdate = ymd("2019-08-16"),
 ##'                   ndays = 3, return.dates = FALSE)
-##' boonah %>%
+##' boonah |>
 ##'   weather_extract(mint, enddate = ymd("2019-08-16"), ndays = 1)
 ##' ## extract multiple columns
-##' boonah %>%
+##' boonah |>
 ##'   weather_extract(c(year, day, mint, maxt), enddate = ymd("2019-08-16"),
 ##'                   ndays = 3)
 ##'
@@ -96,8 +95,8 @@ weather_extract <- function(data, var, datevar = NULL, ndays = 5,
 
   ## dates in selected data ---------------------------------------------
   data_dates  <-
-    data %>%  dplyr::filter(dplyr::between(dplyr::select(data, all_of(var_date))[[1]],
-                                           start_date[1], end_date[1])) %>%
+    data |>  dplyr::filter(dplyr::between(dplyr::select(data, all_of(var_date))[[1]],
+                                           start_date[1], end_date[1])) |>
       dplyr::select(all_of(var_date))
 
   if (warn.consecutive & !identical(sort(data_dates[[1]]),
@@ -107,11 +106,11 @@ weather_extract <- function(data, var, datevar = NULL, ndays = 5,
         "\n            Calculations may result in incorrect values!\n")
   
   ## extract data -----------------------------------------------------
-    ##data %>%  dplyr::filter(select(data, var_date)[[1]] >= start_date[1] &
-    ##                        select(data, var_date)[[1]] <= end_date[1]) %>%
+    ##data |>  dplyr::filter(select(data, var_date)[[1]] >= start_date[1] &
+    ##                        select(data, var_date)[[1]] <= end_date[1]) |>
   ext_data <- 
-    data %>%  dplyr::filter(dplyr::between(dplyr::select(data, all_of(var_date))[[1]],
-                                            start_date[1], end_date[1])) %>%
+    data |>  dplyr::filter(dplyr::between(dplyr::select(data, all_of(var_date))[[1]],
+                                            start_date[1], end_date[1])) |>
     dplyr::select({{ var }}) # note that var may be one or more columns
   
   if (monitor)

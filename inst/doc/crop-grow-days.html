@@ -14,25 +14,38 @@
 
 <title>Calculating Agrometeorological Variables for Crops</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -50,55 +63,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -107,13 +119,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -125,29 +144,209 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <style type="text/css">
-/* for pandoc --citeproc since 2.11 */
+
 div.csl-bib-body { }
 div.csl-entry {
-  clear: both;
+clear: both;
 }
 .hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+margin-left:2em;
+text-indent:-2em;
 }
 div.csl-left-margin {
-  min-width:2em;
-  float:left;
+min-width:2em;
+float:left;
 }
 div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
+margin-left:2em;
+padding-left:1em;
 }
 div.csl-indent {
-  margin-left: 2em;
+margin-left: 2em;
 }
 </style>
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -159,16 +358,19 @@ div.csl-indent {
 
 
 
-<h1 class="title toc-ignore">Calculating Agrometeorological Variables for Crops</h1>
+<h1 class="title toc-ignore">Calculating Agrometeorological Variables
+for Crops</h1>
 
 
 
 <!-- Common Intro -->
 <div id="quick-start" class="section level2">
 <h2>Quick Start</h2>
-<p>Install the latest stable version of <strong>cropgrowdays</strong> via CRAN with:</p>
+<p>Install the latest stable version of <strong>cropgrowdays</strong>
+via CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;cropgrowdays&quot;</span>)</span></code></pre></div>
-<p>You can install the development version of <strong>cropgrowdays</strong> from <code>GitLab</code> with:</p>
+<p>You can install the development version of
+<strong>cropgrowdays</strong> from <code>GitLab</code> with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## if you don&#39;t have &#39;remotes&#39; installed, automatically install it</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;remotes&quot;</span>)) {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com/&quot;</span>)</span>
@@ -178,16 +380,33 @@ div.csl-indent {
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>The <strong>cropgrowdays</strong> package provides functions to calculate agrometeorological quantities of interest for modelling crop data. Currently, functions are provided for calculating growing degree days, stress days, cumulative and daily means of weather data. Australian meteorological data can be obtained from Queensland Government’s Department of Environment and Science (DES) website. In addition, functions are provided to convert days of the year to dates, and <em>vice-versa</em>.</p>
-<p>We recommend using the <strong>cropgrowdays</strong> package in conjunction with the <strong>tidyverse</strong> and <strong>lubridate</strong> packages.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(lubridate))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cropgrowdays)</span></code></pre></div>
-<p>Note that if you are not familiar with these packages then, in order to see which functions are provided and which functions conflict with other packages, initially it may best not to suppress messages using <code>suppressMessages</code>.</p>
+<p>The <strong>cropgrowdays</strong> package provides functions to
+calculate agrometeorological quantities of interest for modelling crop
+data. Currently, functions are provided for calculating growing degree
+days, stress days, cumulative and daily means of weather data.
+Australian meteorological data can be obtained from Queensland
+Government’s Department of Environment and Science (DES) website. In
+addition, functions are provided to convert days of the year to dates,
+and <em>vice-versa</em>.</p>
+<p>We recommend using the <strong>cropgrowdays</strong> package in
+conjunction with the <strong>tidyverse</strong> and
+<strong>lubridate</strong> packages. Additionally, we also recommend
+using the <strong>furrr</strong> package to speed up adding
+agrometeorological variables to large data frames. For this document, we
+only use the <strong>lubridate</strong> package as follows.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(lubridate))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cropgrowdays)</span></code></pre></div>
+<p>Note that if you are not familiar with the <code>lubridate</code>
+package, then in order to see which functions are provided and which
+functions conflict with other packages, initially it may best not to
+suppress messages using <code>suppressMessages</code>.</p>
 </div>
 <div id="obtaining-australian-meteorological-data" class="section level2">
 <h2>Obtaining Australian meteorological data</h2>
-<p>The <code>boonah</code> dataset was obtained from the Queensland Government DES longpaddock website <a href="https://www.longpaddock.qld.gov.au" class="uri">https://www.longpaddock.qld.gov.au</a> using the <code>get_silodata</code> function. Please see <a href="./getting-weather-data.html">getting-weather-data vignette</a> for details.</p>
+<p>The <code>boonah</code> dataset was obtained from the Queensland
+Government DES longpaddock website <a href="https://www.longpaddock.qld.gov.au" class="uri">https://www.longpaddock.qld.gov.au</a> using the
+<code>get_silodata</code> function. Please see <a href="./getting-weather-data.html">getting-weather-data vignette</a> for
+details.</p>
 <p>The data obtained is</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## weather data object</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(boonah, <span class="at">n=</span><span class="dv">5</span>)</span>
@@ -199,11 +418,15 @@ div.csl-indent {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # … with 512 more rows</span></span></code></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 512 more rows</span></span></code></pre></div>
 </div>
 <div id="agrometeorological-calculations" class="section level2">
 <h2>Agrometeorological calculations</h2>
-<p>The <code>crop</code> dataset consists of dates for a hypothetical crop data set which would also usually contain agronomic traits of interest such as yield, dry matter yield and so on. Each row of data contains sowing, flowering and harvest dates for a typical field or farm in Queensland, Australia.</p>
+<p>The <code>crop</code> dataset consists of dates for a hypothetical
+crop data set which would also usually contain agronomic traits of
+interest such as yield, dry matter yield and so on. Each row of data
+contains sowing, flowering and harvest dates for a typical field or farm
+in Queensland, Australia.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## crop data object</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop, <span class="at">n=</span><span class="dv">5</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 3</span></span>
@@ -214,15 +437,40 @@ div.csl-indent {
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26  </span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26  </span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26  </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # … with 5 more rows</span></span></code></pre></div>
-<p>Example <code>R</code> syntax is provided for calculating daily mean radiation, total rainfall, growing degree dates and the number of stress days between two dates. Alternatively, a number of days before or after a certain date may be specified.</p>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span></code></pre></div>
+<p>Example <code>R</code> syntax is provided for calculating daily mean
+radiation, total rainfall, growing degree dates and the number of stress
+days between two dates. Alternatively, a number of days before or after
+a certain date may be specified.</p>
+<p>Note that employing mapping functions to add agrometeorological
+variables to large data frames can take a substantial amount of
+computational time. We describe how to employ the <code>furrr</code>
+package, which provides a relatively simple way to apply mapping
+functions in parallel, to speed up these calculations.</p>
 <div id="growing-degree-days" class="section level3">
 <h3>Growing Degree Days</h3>
-<p>The <code>growing_degree_days</code> function calculates the sum of degree days for each day <span class="math inline">\(i = 1 \ldots n\)</span>. The growing degree days <span class="math inline">\(GDD\)</span> summed over <span class="math inline">\(n\)</span> days are</p>
-<p><span class="math display">\[GDD = \sum_i^n (Tmax_{i} + Tmin_{i}) / 2 - T_{base}\]</span></p>
-<p>during specified dates for a tibble/data frame of daily weather data. For each day <span class="math inline">\(i\)</span>, the maximum temperature is <span class="math inline">\(Tmax_{i}\)</span> and minimum is <span class="math inline">\(Tmin_{i}\)</span>. Note that the maximum temperature <span class="math inline">\(Tmax\)</span> is capped at <code>maxt_cap</code> degrees when calculating average temperature. The defaults are <span class="math inline">\(T_{base} = 5^{\circ}C\)</span> and <span class="math inline">\(Tmax\)</span> is capped at <span class="math inline">\(Tmax_{cap} = 30^{\circ}C\)</span>. (See <span class="citation">McMaster and Wilhelm (1997)</span> or <a href="https://farmwest.com/climate/calculator-information/gdd/" class="uri">https://farmwest.com/climate/calculator-information/gdd/</a> <span class="citation">(Anon 2021)</span>)</p>
-<p>The <em>gdd</em> functions in the <em>pollen</em> package <span class="citation">(Nowosad 2019)</span> and in <em>agroclim</em> <span class="citation">(Serrano-Notivoli 2020)</span> also calculate growing degree days. While these functions do not allow for a fixed number of days, and in the case of <em>agroclim::gdd</em> assume a more limited growing season since the function appears to be tailored to grapes, further variations on the formula above as outlined in <span class="citation">Baskerville and Emin (1969)</span> are available.</p>
-<p>To calculate the growing degree days at Boonah using weather data from the <code>boonah</code> object between flowering and harvest use:</p>
+<p>The <code>growing_degree_days</code> function calculates the sum of
+degree days for each day <span class="math inline">\(i = 1 \ldots
+n\)</span>. The growing degree days <span class="math inline">\(GDD\)</span> summed over <span class="math inline">\(n\)</span> days are</p>
+<p><span class="math display">\[GDD = \sum_i^n (Tmax_{i} + Tmin_{i}) / 2
+- T_{base}\]</span></p>
+<p>during specified dates for a tibble/data frame of daily weather data.
+For each day <span class="math inline">\(i\)</span>, the maximum
+temperature is <span class="math inline">\(Tmax_{i}\)</span> and minimum
+is <span class="math inline">\(Tmin_{i}\)</span>. Note that the maximum
+temperature <span class="math inline">\(Tmax\)</span> is capped at
+<code>maxt_cap</code> degrees when calculating average temperature. The
+defaults are <span class="math inline">\(T_{base} = 5^{\circ}C\)</span>
+and <span class="math inline">\(Tmax\)</span> is capped at <span class="math inline">\(Tmax_{cap} = 30^{\circ}C\)</span>. (See <span class="citation">McMaster and Wilhelm (1997)</span> or <a href="https://farmwest.com/climate/calculator-information/gdd/" class="uri">https://farmwest.com/climate/calculator-information/gdd/</a>
+<span class="citation">(Anon 2021)</span>)</p>
+<p>The <em>gdd</em> functions in the <em>pollen</em> package <span class="citation">(Nowosad 2019)</span> and in <em>agroclim</em> <span class="citation">(Serrano-Notivoli 2020)</span> also calculate growing
+degree days. While these functions do not allow for a fixed number of
+days, and in the case of <em>agroclim::gdd</em> assume a more limited
+growing season since the function appears to be tailored to grapes,
+further variations on the formula above as outlined in <span class="citation">Baskerville and Emin (1969)</span> are available.</p>
+<p>To calculate the growing degree days at Boonah using weather data
+from the <code>boonah</code> object between flowering and harvest
+use:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Growing Degree Days between two dates</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>crop<span class="sc">$</span>flower_date[<span class="dv">4</span>]     <span class="co"># flowering date for 4th field or farm in &#39;crop&#39;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-06&quot;</span></span>
@@ -234,8 +482,12 @@ div.csl-indent {
 </div>
 <div id="stress-days" class="section level3">
 <h3>Stress days</h3>
-<p><code>stress_days_over</code> calculates the number of days when the maximum temperature exceeded a base line <code>stress_temp</code> during specified dates for a tibble/data frame of daily weather data. The default <code>stress_temp</code> is set at <span class="math inline">\(30^{\circ}C\)</span>.</p>
-<p>To calculate the number of stress days at Boonah between flowering and harvest, use:</p>
+<p><code>stress_days_over</code> calculates the number of days when the
+maximum temperature exceeded a base line <code>stress_temp</code> during
+specified dates for a tibble/data frame of daily weather data. The
+default <code>stress_temp</code> is set at <span class="math inline">\(30^{\circ}C\)</span>.</p>
+<p>To calculate the number of stress days at Boonah between flowering
+and harvest, use:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Stress days  between two dates</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stress_days_over</span>(boonah, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]) <span class="co"># , monitor = TRUE)</span></span>
@@ -243,8 +495,11 @@ div.csl-indent {
 </div>
 <div id="cumulative-calculations" class="section level3">
 <h3>Cumulative calculations</h3>
-<p><code>cumulative</code> calculates the sum total of daily values between two dates from a tibble/data frame of daily weather data. Typically this is used for solar radiation or rainfall.</p>
-<p>To calculate the total rainfall at Boonah between flowering and harvest, use:</p>
+<p><code>cumulative</code> calculates the sum total of daily values
+between two dates from a tibble/data frame of daily weather data.
+Typically this is used for solar radiation or rainfall.</p>
+<p>To calculate the total rainfall at Boonah between flowering and
+harvest, use:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## cumulative rainfall between two dates (flowering and harvest)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>])</span>
@@ -252,8 +507,12 @@ div.csl-indent {
 </div>
 <div id="daily-means" class="section level3">
 <h3>Daily means</h3>
-<p><code>daily_mean</code> calculates the daily average of a variable between two dates from a tibble/data frame of daily weather data. Typically this would be for temperature, rainfall or solar radiation.</p>
-<p>To calculate daily mean radiation in the 3 day period from day of flowering onwards (which also includes day of flowering), use:</p>
+<p><code>daily_mean</code> calculates the daily average of a variable
+between two dates from a tibble/data frame of daily weather data.
+Typically this would be for temperature, rainfall or solar
+radiation.</p>
+<p>To calculate daily mean radiation in the 3 day period from day of
+flowering onwards (which also includes day of flowering), use:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## daily mean radiation for the three days ending on crop$flower_date[4]</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>crop<span class="sc">$</span>flower_date[<span class="dv">4</span>] <span class="co"># a particular flowering date</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-06&quot;</span></span>
@@ -270,9 +529,12 @@ div.csl-indent {
 </div>
 <div id="extracting-weather-data-from-a-tibble-or-dataframe" class="section level2">
 <h2>Extracting weather data from a tibble or dataframe</h2>
-<p>To extract column(s) from a tibble/data frame of daily weather data between two specified dates we use <code>weather_extract</code>. Either specify the start and end dates or specify one of these dates and also the number of days after or before, respectively.</p>
+<p>To extract column(s) from a tibble/data frame of daily weather data
+between two specified dates we use <code>weather_extract</code>. Either
+specify the start and end dates or specify one of these dates and also
+the number of days after or before, respectively.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract daily rainfall &amp; maximum temperature data using %&gt;% pipe operator</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>boonah <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>boonah <span class="sc">|&gt;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">weather_extract</span>(<span class="fu">c</span>(rain, maxt), <span class="at">date =</span> date_met, <span class="at">startdate =</span> <span class="fu">ymd</span>(<span class="st">&quot;2019-08-16&quot;</span>),</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">enddate =</span> <span class="fu">ymd</span>(<span class="st">&quot;2019-08-21&quot;</span>))</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 6 × 3</span></span>
@@ -287,53 +549,83 @@ div.csl-indent {
 </div>
 <div id="adding-agrometeorological-variables-to-dataframes" class="section level2">
 <h2>Adding agrometeorological variables to dataframes</h2>
-<p>We can add agrometeorological variables to the <code>crop</code> tibble using the <code>tidyverse</code> functions <code>map_dbl</code>, <code>map_dbl2</code> and <code>pmap</code> to calculate new columns employing the weather data from the <code>boonah</code> object. Use <code>map_dbl</code> for one varying date and <code>map_dbl2</code> for varying start and end dates. For more than two varying parameters, which may be necessary if for instance our weather object contained multiple locations or sites, then we can use <code>pmap</code>. These functions are from the <code>purrr</code> library. Alternatively, we could use functions from the <code>apply</code> family such as <code>mapply</code> from the <code>base</code> package.</p>
-<p>To add growing degree days 7 days post sowing and the number of stress days above <span class="math inline">\(30^\circ C\)</span> from flowering to harvest to the <code>crop</code> tibble, then we employ the following <code>mutate</code> syntax to extract the appropriate weather data from the <code>boonah</code> weather data object.</p>
+<p>We can add agrometeorological variables to the <code>crop</code>
+tibble using the <code>tidyverse</code> functions <code>map_dbl</code>,
+<code>map_dbl2</code> and <code>pmap</code> to calculate new columns
+employing the weather data from the <code>boonah</code> object. Use
+<code>map_dbl</code> for one varying date and <code>map_dbl2</code> for
+varying start and end dates. For more than two varying parameters, which
+may be necessary if for instance our weather object contained multiple
+locations or sites, then we can use <code>pmap</code>. These functions
+are from the <code>purrr</code> library. Alternatively, we could use
+functions from the <code>apply</code> family such as <code>mapply</code>
+from the <code>base</code> package.</p>
+<p>To add growing degree days 7 days post sowing and the number of
+stress days above <span class="math inline">\(30^\circ C\)</span> from
+flowering to harvest to the <code>crop</code> tibble, then we employ the
+following <code>mutate</code> syntax to extract the appropriate weather
+data from the <code>boonah</code> weather data object.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Growing degree and stress days</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>crop2 <span class="ot">&lt;-</span> crop <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gddays_post_sow_7d =</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>crop2 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">gddays_post_sow_7d =</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">growing_degree_days</span>(boonah, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">stressdays_flower_harvest =</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">stress_days_over</span>(boonah, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop2, <span class="at">n=</span><span class="dv">5</span>)</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 5</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_har…</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_ha…¹</span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                    &lt;dbl&gt;                  &lt;dbl&gt;</span></span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                 76.4                     10</span></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                104.                      20</span></span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                132.                      11</span></span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                142.                       4</span></span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                145.                       5</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: # … with 5 more rows</span></span></code></pre></div>
-<p>Similarly, to add total rainfall for the 7 days post sowing and the mean daily radiation from flowering to harvest we use:</p>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ abbreviated name: ¹​stressdays_flower_harvest</span></span></code></pre></div>
+<p>Similarly, to add total rainfall for the 7 days post sowing and the
+mean daily radiation from flowering to harvest we use:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Totals and daily means</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">meanrad_flower_harvest =</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">daily_mean</span>(boonah, <span class="at">var =</span> radn, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop3, <span class="at">n=</span><span class="dv">5</span>)</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 5</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date totalrain_post_sow_7d meanrad_flower_har…</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                       &lt;dbl&gt;               &lt;dbl&gt;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5                22.9</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                     0                  25.5</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                     0                  16.5</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4                15.5</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7                16.6</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: # … with 5 more rows</span></span></code></pre></div>
-<p>For large datasets these calculations can be time consuming. One approach that may prove useful is to use the <code>furrr</code> package which is a bridge between purrr‘s family of mapping functions and future‘s parallel processing capabilities. If speed is an issue, then it is worth trying because it is simple to implement. While some tweaking may prove useful, it seems that the defaults work pretty well (see <code>?future::plan</code>). After setting the number of workers, then simply replace mapping functions by putting <code>future_</code> at the front of the name of the mapping function. For instance, <code>map2_dbl</code> is replaced with <code>future_map2_dbl</code>. While the results are not shown here, to add total rain and mean radiation as before, use something like:</p>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date totalrain_post_sow_7d</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                       &lt;dbl&gt;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                     0  </span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                     0  </span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 1 more variable: meanrad_flower_harvest &lt;dbl&gt;</span></span></code></pre></div>
+<div id="speeding-up-calculations-using-furrr" class="section level3">
+<h3>Speeding up calculations using <code>furrr</code></h3>
+<p>For large datasets these calculations can be time consuming. One
+approach that may prove useful is to use the <code>furrr</code> package
+which is a bridge between purrr‘s family of mapping functions and
+future‘s parallel processing capabilities. If speed is an issue, then it
+is worth trying because it is simple to implement. While some tweaking
+may prove useful, it seems that the defaults work pretty well (see
+<code>?future::plan</code>). After setting the number of workers, then
+simply replace mapping functions by putting <code>future_</code> at the
+front of the name of the mapping function. For instance,
+<code>map2_dbl</code> is replaced with <code>future_map2_dbl</code>.
+While the results are not shown here, to add total rain and mean
+radiation as before, use something like:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ptm <span class="ot">&lt;-</span> <span class="fu">proc.time</span>() <span class="co"># Start the clock!</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## set number of &#39;furrr&#39; workers</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Totals and daily means</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">%&gt;%</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">future_map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">meanrad_flower_harvest =</span></span>
@@ -341,12 +633,21 @@ div.csl-indent {
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">daily_mean</span>(boonah, <span class="at">var =</span> radn, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop3, <span class="at">n=</span><span class="dv">5</span>)</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">proc.time</span>() <span class="sc">-</span> ptm <span class="co"># Stop the clock!</span></span></code></pre></div>
-<p>For recent work, we have found that setting 4 workers was optimal but this will of course depend on your setup.</p>
+<p>For recent work, we have found that setting 4 workers was optimal but
+this will of course depend on your setup.</p>
+</div>
 </div>
 <div id="day-of-year-calculations" class="section level2">
 <h2>Day of year calculations</h2>
-<p>When modelling crops, agronomists typically specify dates as the day of year. Several functions are available for day of year calculations and converting these back to dates. In <code>R</code>, dates, times and timezone data are easily manipulated using the <code>lubridate</code> package.</p>
-<p>The <code>day_of_year</code> function is used to convert a date to the day of year, which could be based on the calendar year starting on 1 January, the Australian financial year starting on 1 July or an arbitrary starting date.</p>
+<p>When modelling crops, agronomists typically specify dates as the day
+of year. Several functions are available for day of year calculations
+and converting these back to dates. In <code>R</code>, dates, times and
+timezone data are easily manipulated using the <code>lubridate</code>
+package.</p>
+<p>The <code>day_of_year</code> function is used to convert a date to
+the day of year, which could be based on the calendar year starting on 1
+January, the Australian financial year starting on 1 July or an
+arbitrary starting date.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">##  Day of Calendar Year</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 366 183   1</span></span>
@@ -365,19 +666,36 @@ div.csl-indent {
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 184 2020/2021</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2   1 2020/2021</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 185 2019/2020</span></span></code></pre></div>
-<p>To convert a day of year to a date, use <code>date_from_day_year</code> noting that while the calendar year is the default, we can specify the Australian financial year or an arbitrary starting date.</p>
+<p>To convert a day of year to a date, use
+<code>date_from_day_year</code> noting that while the calendar year is
+the default, we can specify the Australian financial year or an
+arbitrary starting date.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert day of year to a date</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">date_from_day_year</span>(<span class="dv">21</span>,<span class="dv">2021</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2021-01-21&quot;</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">date_from_day_year</span>(<span class="dv">21</span>,<span class="dv">2021</span>, <span class="at">type =</span> <span class="st">&quot;fina&quot;</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2021-07-21&quot;</span></span></code></pre></div>
-<p>Finally, while we can use <code>day_of_year</code> to obtain the day of the current year, if a crop is planted near the end of the year then we way wish to know the day of harvest which will fall in the next year. The <code>day_of_harvest</code> function provides the day of year in the year of sowing which can be used to calculate other quantities like day of flowering etc. Thus, quantities like the number of days between harvest and sowing are easily calculated taking into account that the crop may grow past the end of the year. Alternatively, these quantities are also easily computed directly on the dates by using the <code>lubridate</code> package. For instance the convenience function <code>cropgrowdays::number_of_days</code> is essentially a call to <code>as.numeric(finish_date - start_date) + 1</code>.</p>
+<p>Finally, while we can use <code>day_of_year</code> to obtain the day
+of the current year, if a crop is planted near the end of the year then
+we way wish to know the day of harvest which will fall in the next year.
+The <code>day_of_harvest</code> function provides the day of year in the
+year of sowing which can be used to calculate other quantities like day
+of flowering etc. Thus, quantities like the number of days between
+harvest and sowing are easily calculated taking into account that the
+crop may grow past the end of the year. Alternatively, these quantities
+are also easily computed directly on the dates by using the
+<code>lubridate</code> package. For instance the convenience function
+<code>cropgrowdays::number_of_days</code> is essentially a call to
+<code>as.numeric(finish_date - start_date) + 1</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Day of harvest using the first day of the year of sowing as the base day</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="st">&quot;2021-01-05&quot;</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 5</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_harvest</span>(<span class="at">x =</span> <span class="fu">ymd</span>(<span class="st">&quot;2021-01-05&quot;</span>), <span class="at">sowing =</span> <span class="fu">ymd</span>(<span class="st">&quot;2020-12-20&quot;</span>))  <span class="co"># &gt; 366</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 371</span></span></code></pre></div>
-<p>Note that the first calculation simply assumes the first day of the year is 1 January 2021 whereas the second calculation yields a result assuming the first day of the year is 1 January 2020. Hence, since 2020 is a leap year containing 366 days, then the day of harvest is <span class="math inline">\(366 + 5 = 371\)</span>.</p>
+<p>Note that the first calculation simply assumes the first day of the
+year is 1 January 2021 whereas the second calculation yields a result
+assuming the first day of the year is 1 January 2020. Hence, since 2020
+is a leap year containing 366 days, then the day of harvest is <span class="math inline">\(366 + 5 = 371\)</span>.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="unnumbered">References</h2>
@@ -386,16 +704,23 @@ div.csl-indent {
 Anon. 2021. <span>“<span>GDD</span>.”</span> <em>Farmwest</em>. <a href="https://farmwest.com/climate/calculator-information/gdd/">https://farmwest.com/climate/calculator-information/gdd/</a>.
 </div>
 <div id="ref-baskerville1969" class="csl-entry">
-Baskerville, G. L., and P. Emin. 1969. <span>“Rapid <span>Estimation</span> of <span>Heat</span> <span>Accumulation</span> from <span>Maximum</span> and <span>Minimum</span> <span>Temperatures</span>.”</span> <em>Ecology</em> 50 (3): 514–17. <a href="https://doi.org/10.2307/1933912">https://doi.org/10.2307/1933912</a>.
+Baskerville, G. L., and P. Emin. 1969. <span>“Rapid
+<span>Estimation</span> of <span>Heat</span> <span>Accumulation</span>
+from <span>Maximum</span> and <span>Minimum</span>
+<span>Temperatures</span>.”</span> <em>Ecology</em> 50 (3): 514–17. <a href="https://doi.org/10.2307/1933912">https://doi.org/10.2307/1933912</a>.
 </div>
 <div id="ref-mcmaster1997" class="csl-entry">
-McMaster, Gregory S, and W W Wilhelm. 1997. <span>“Growing Degree-Days: One Equation, Two Interpretations.”</span> <em>Agricultural and Forest Meteorology</em> 87 (4): 291–300. <a href="https://doi.org/10.1016/S0168-1923(97)00027-0">https://doi.org/10.1016/S0168-1923(97)00027-0</a>.
+McMaster, Gregory S, and W W Wilhelm. 1997. <span>“Growing Degree-Days:
+One Equation, Two Interpretations.”</span> <em>Agricultural and Forest
+Meteorology</em> 87 (4): 291–300. <a href="https://doi.org/10.1016/S0168-1923(97)00027-0">https://doi.org/10.1016/S0168-1923(97)00027-0</a>.
 </div>
 <div id="ref-pollen2019" class="csl-entry">
-Nowosad, Jakub. 2019. <em>Pollen: Analysis of Aerobiological Data</em>. <a href="https://CRAN.R-project.org/package=pollen">https://CRAN.R-project.org/package=pollen</a>.
+Nowosad, Jakub. 2019. <em>Pollen: Analysis of Aerobiological Data</em>.
+<a href="https://CRAN.R-project.org/package=pollen">https://CRAN.R-project.org/package=pollen</a>.
 </div>
 <div id="ref-agroclim2020" class="csl-entry">
-Serrano-Notivoli, Roberto. 2020. <em>Agroclim: Climatic Indices for Agriculture</em>. <a href="https://CRAN.R-project.org/package=agroclim">https://CRAN.R-project.org/package=agroclim</a>.
+Serrano-Notivoli, Roberto. 2020. <em>Agroclim: Climatic Indices for
+Agriculture</em>. <a href="https://CRAN.R-project.org/package=agroclim">https://CRAN.R-project.org/package=agroclim</a>.
 </div>
 </div>
 </div>

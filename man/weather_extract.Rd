@@ -52,21 +52,20 @@ dates or specify one of these dates and also the number of days
 after or before, respectively.
 }
 \examples{
-library(tidyverse)
 library(lubridate)
-boonah \%>\%
+boonah |>
 weather_extract(rain, date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
-boonah \%>\%
+boonah |>
   weather_extract(rain, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
-boonah \%>\%
+boonah |>
   weather_extract(maxt, date = date_met, startdate = ymd("2019-08-16"),
                   ndays = 3, return.dates = FALSE)
-boonah \%>\%
+boonah |>
   weather_extract(mint, enddate = ymd("2019-08-16"), ndays = 1)
 ## extract multiple columns
-boonah \%>\%
+boonah |>
   weather_extract(c(year, day, mint, maxt), enddate = ymd("2019-08-16"),
                   ndays = 3)
 

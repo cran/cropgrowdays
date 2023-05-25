@@ -63,7 +63,7 @@
 day_of_year <- function(x, type = c("calendar", "financial", "other"),
                         return_year = FALSE, base = NULL)
 {
-  if(class(x) != "Date") stop("Error: 'x' must be of class Date")
+  if(!("Date" %in%  class(x))) stop("Error: 'x' must be of class Date")
   type <- match.arg(type)
 
   year_x <- lubridate::year(x)  
@@ -221,12 +221,13 @@ day_of_harvest <- function(x, sowing,
                            base = NULL, verbose = FALSE)
 {
   ## simple checks  
-  if (class(x) != "Date") stop("Error: 'x' must be of class Date")
-  if (class(sowing) != "Date") stop("Error: 'sowing' must be of class Date")
+  if (!("Date" %in% class(x))) stop("Error: 'x' must be of class Date")
+  if (!("Date" %in% class(sowing))) stop("Error: 'sowing' must be of class Date")
   ## NB: x < sowing, needs to be vectorised
   if (any(x < sowing)) {
     if (verbose) {
-      data_errors <- tibble(x = x, sowing = sowing) %>% filter(x < sowing) 
+      ## data_errors <- tibble::tibble(x = x, sowing = sowing) %>% filter(x < sowing)
+       data_errors <- tibble::tibble(x = x, sowing = sowing) |> filter(x < sowing) 
       print(data_errors, n = dim(data_errors)[1])
     }
     ## Should this be a Warning?
@@ -301,8 +302,8 @@ day_of_harvest <- function(x, sowing,
 number_of_days <- function(x, start)
 {
   ## simple checks  
-  if (class(x) != "Date") stop("Error: 'x' must be of class Date")
-  if (class(start) != "Date") stop("Error: 'start' must be of class Date")
+  if (!("Date" %in% class(x))) stop("Error: 'x' must be of class Date")
+  if (!("Date" %in% class(start))) stop("Error: 'start' must be of class Date")
 
   ## perhaps also need to check that not a date time class - not sure
   as.numeric(x - start)

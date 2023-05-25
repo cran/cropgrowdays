@@ -18,7 +18,11 @@ email address by replacing `MY_EMAIL_ADDRESS` with your email
 address. The data is freely available under the Creative Commons 4.0
 License. Note that SILO may be unavailable between 11am and 1pm
 (Brisbane time) each Wednesday and Thursday to allow for essential
-system maintenance.
+system maintenance. Also please note that, by default, `apsim` data are
+retrieved. Most, but not all, of the other formats are also
+available. See the help for `get_silodata` for details. You can obtain
+this help using `?cropgrowdays::get_silodata` at the R Console prompt or
+using your favourite help system.
 
 The data obtained is
 ```{r boonah-data}

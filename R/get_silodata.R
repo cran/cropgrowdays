@@ -6,12 +6,12 @@
 ##' hosted by the Science and Technology Division of the Queensland
 ##' Government's Department of Environment and Science (DES). For more
 ##' information please see
-##' \url{https://www.longpaddock.qld.gov.au/silo/about}. While several
-##' file formats are available, we use the APSIM format. Other formats
-##' may be produced although the function may need to be modified if
-##' the arguments do not fully accommodate the specifications. Please
-##' see
-##' \url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}
+##' \url{https://www.longpaddock.qld.gov.au/silo/about}. A number of
+##' data formats are available via the \code{FORMAT} option, but we
+##' have mainly used the \dQuote{apsim} format. Other formats may be
+##' retrieved but these are largely untested. Please lodge an issue if
+##' there are problems. For details, please see
+##' \url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}.
 ##' SILO products are provided free of charge to the public for use
 ##' under the Creative Commons Attribution 4.0 license and appear to
 ##' be subject to fair use limits. Note that SILO may be unavailable
@@ -35,10 +35,11 @@
 ##' @param FINISH Last date as a character string \dQuote{YYYYMMDD}
 ##'   with no spaces. Default: \dQuote{20201231}
 ##' @param FORMAT of data file required. While this function was
-##'   originally constructed to obtain \code{APSIM} format, other
-##'   formats are available. See
+##'   originally constructed to obtain \code{apsim} format, other
+##'   formats are now available but not as tested.  \code{rainman} is
+##'   not included since it returns six separate files. See
 ##'   \url{https://www.longpaddock.qld.gov.au/silo/about/file-formats-and-samples/}
-##'   Default: \dQuote{APSIM}
+##'   Default: \dQuote{apsim}
 ##' @param PASSWORD Default: \dQuote{apitest}
 ##' @param extras A list containing variable names and values for
 ##'   extra columns. Note that the new variable(s) will have the same
@@ -52,7 +53,6 @@
 ##'   column \code{date_met}, containing the date, is returned along
 ##'   with the usual \code{year} and day of year \code{day}.
 ##'
-##' @importFrom magrittr %>%
 ##' @importFrom utils read.delim
 ##' @importFrom tibble tibble
 ##' @examples
@@ -70,6 +70,23 @@
 ##'                email = "MY_EMAIL_ADDRESS",
 ##'                START = "20190101", FINISH = "20200531",
 ##'                extras = list(Sitename = "Boonah"))
+##' ## Example 3: Replace MY_EMAIL_ADDRESS below with yours - adds extra column
+##' ##            Latitude and Longitude are numeric.
+##' ##            Retreives all Morton hydrological evapotranspirations
+##' boonah_data3 <-
+##'   get_silodata(latitude = -27.9927, longitude = 152.6906,
+##'                email = "MY_EMAIL_ADDRESS", FORMAT  =  "allmort",
+##'                START = "20190101", FINISH = "20190115",
+##'                extras = list(Sitename = "Boonah"))
+##' ## Example 4: Replace MY_EMAIL_ADDRESS below with yours - adds extra column
+##' ##            Latitude and Longitude are numeric. Retreives two months of
+##' ##            total rainfall and evaporation and means for max/min
+##' ##            temperatures, solar radiation and vapour pressure
+##' boonah_data4 <-
+##'   get_silodata(latitude = -27.9927, longitude = 152.6906,
+##'                email = "drpetebaker@gmail.com", FORMAT = "monthly",
+##'                START = "20190101", FINISH = "20190228",
+##'                extras = list(Sitename = "Boonah"))
 ##'}
 ##' 
 ##' @seealso \code{\link{get_multi_silodata}}
@@ -77,9 +94,21 @@
 get_silodata <-
   function(latitude,  longitude, email,
            START = "20201101", FINISH = "20201231",
-           FORMAT = "APSIM", PASSWORD = "apitest", extras = NULL,
-           URL = "https://www.longpaddock.qld.gov.au/cgi-bin/silo/DataDrillDataset.php")
-{
+           FORMAT = c("apsim", "fao56", "standard", "allmort", "ascepm",
+                      "evap_span", "span", "all2016", "alldata",
+                      "p51", "rainonly", "monthly", "cenw"),
+           PASSWORD = "apitest", extras = NULL,
+           URL = "https://www.longpaddock.qld.gov.au/cgi-bin/silo/DataDrillDataset.php") {
+  ## process FORMAT
+  ## NB: rainman formats are not included since returns multiple files
+  formats <- c("apsim", "fao56", "standard", "allmort", "ascepm",
+                      "evap_span", "span", "all2016", "alldata",
+                      "p51", "rainonly", "monthly", "cenw")
+  FORMAT <- match.arg(FORMAT) # choose and check
+  first_col_name <- c("year", rep("Date",8), "  date", "Year", "Yr.Mth", "*TMax")
+  names(first_col_name) <- formats
+
+  ## process params for web query
   params  <-  list(
     lat = latitude,
     lon = longitude,
@@ -107,15 +136,41 @@ get_silodata <-
   ## silodata <- silodata[-1,]
 
   tmpdata <- silodata
-  tmpdata <- strsplit(as.character(tmpdata), "\nyear") # split after URL
-  tmpdata <- as.character(tmpdata[[1]][2])
-  tmpdata <- (strsplit(tmpdata, "\n")[[1]])[-2]
-  tmpdata <- gsub("\\s+"," ",tmpdata) # replace multiple white space with " "
-  tmpdata <- read.delim(textConnection(tmpdata), sep = " ")
+  if (FORMAT != "rainonly"){
+    STSPLIT <- paste0("\n",  first_col_name[FORMAT])
+    tmpdata <- strsplit(as.character(tmpdata), STSPLIT) # split after URL details
+    ##  tmpdata <- strsplit(as.character(tmpdata), "\nyear") # split after URL details
+    tmpdata <- as.character(tmpdata[[1]][2])
+    tmpdata <- (strsplit(tmpdata, "\n")[[1]])[-2]
+    tmpdata <- gsub("\\s+"," ",tmpdata) # replace multiple white space with " "
+    if(FORMAT == "p51" | FORMAT == "cenw") {
+      tmpdata[1] <- paste0("date", tmpdata[1])
+      tmpdata <- read.delim(textConnection(trimws(tmpdata)), sep = " ")
+    } else {
+      tmpdata <- read.delim(textConnection(tmpdata), sep = " ")
+    }
+  } else {
+    tmpdata <- read.delim(textConnection(tmpdata), sep = "")
+    names(tmpdata) <- c("Year", "mth", "day", "day2", "Rain")
+    tmpdata$Date <- as.Date(with(tmpdata, paste(Year, mth, day,
+                                 sep = "-")), format = "%Y-%m-%d")
+  }
+  
+  if(FORMAT == "cenw") {
+    names(tmpdata)[1] <- "Tmax"
+    tmpdata$Date <- as.Date(tmpdata$Date, format = "%d/%m/%Y")
+  }
 
+  ## process column 1 by restoring column name and converting to date
+  ## if appropriate
+  if(FORMAT != "p51" & FORMAT != "cenw")
+      names(tmpdata)[1] <- first_col_name[FORMAT]
+  if(names(tmpdata)[1] == "Date" | names(tmpdata)[1] == "date")
+    tmpdata[,1] <- as.Date(as.character(tmpdata[,1]), format = "%Y%m%d")
+    
   ## tidy up the data if APSIM format retrieved, otherwise return as is --
-  if (FORMAT == "APSIM"){
-    names(tmpdata)[1] <- "year"
+  if (FORMAT == "apsim"){
+    ## names(tmpdata)[1] <- "year"
     ##silodata <- tmpdata
     ## add in a date column for calcs but strict CRAN checking won't like
     ## using simple year and day since appears to come from nowhere
@@ -147,5 +202,5 @@ get_silodata <-
   ##  cat("Warning: 'extras' not set. Is this intentional?")
   ##}
   
-  tibble(tmpdata)
+  tibble::tibble(tmpdata)
 }

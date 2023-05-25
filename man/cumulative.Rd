@@ -72,7 +72,9 @@ data and so this decision is left to the user.
 }
 \examples{
 ## Selected calculations
-library(tidyverse)
+## library(tidyverse)   # purrr used here for crop2 example
+library(dplyr)
+library(purrr)
 cumulative(boonah, enddate = crop$flower_date[4], ndays = 3,
                     monitor = TRUE)
 cumulative(boonah, enddate = crop$harvest_date[4], ndays = 3,
@@ -87,12 +89,12 @@ cumulative(boonah, var = rain, startdate = crop$flower_date[4],
 ## Add selected totals of weather variables in 'boonah' to 'crop'' tibble
 ## using 'map2_dbl' from the 'purrr' package
 ## Note: using equivalent 'furrr' functions can speed up calculations 
-crop2 <- crop \%>\%
-  mutate(totalrain_post_sow_7d =
-          map_dbl(sowing_date, function(x)
+crop2 <- crop |>
+  dplyr::mutate(totalrain_post_sow_7d =
+          purrr::map_dbl(sowing_date, function(x)
             cumulative(boonah, var = rain, startdate = x, ndays = 7)),
           totalrad_flower_harvest =
-            map2_dbl(flower_date, harvest_date, function(x, y)
+            purrr::map2_dbl(flower_date, harvest_date, function(x, y)
               cumulative(boonah, var = radn, startdate = x, enddate = y)))
 crop2
 }

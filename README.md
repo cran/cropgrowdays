@@ -4,7 +4,7 @@
 <!--  the header with latex version only BUT THIS DOESN'T WORK! somewhat hard to debug -->
 # cropgrowdays <img src="man/figures/cropgrowdays_hex.png" height="139" align="right"/>
 
-Version: 0.1.1
+Version: 0.2.0
 
 <!-- Common intro material -->
 
@@ -40,50 +40,52 @@ functions are provided to convert days of the year to dates, and
 *vice-versa*.
 
 We recommend using the **cropgrowdays** package in conjunction with the
-**tidyverse** and **lubridate** packages.
+**tidyverse** and **lubridate** packages. Additionally, we also
+recommend using the **furrr** package to speed up adding
+agrometeorological variables to large data frames. For this document, we
+only use the **lubridate** package as follows.
 
 ``` r
-suppressMessages(library(tidyverse))
 suppressMessages(library(lubridate))
 library(cropgrowdays)
 ```
 
-Note that if you are not familiar with these packages then, in order to
-see which functions are provided and which functions conflict with other
-packages, initially it may best not to suppress messages using
-`suppressMessages`.
+Note that if you are not familiar with the `lubridate` package, then in
+order to see which functions are provided and which functions conflict
+with other packages, initially it may best not to suppress messages
+using `suppressMessages`.
 
 ## Usage
 
 There are currently four key agrometeorological calculation functions in
 **cropgrowdays**. These are:
 
--   `cumulative` calculates cumulative weather data between between two
-    dates, and
--   `daily_mean` calculates daily mean of a weather variable between two
-    dates, and
--   `growing_degree_days` calculates the growing degree days between two
-    dates as the sum of the difference between daily average temp and a
-    baseline value where the daily average temp is capped, and
--   `stress_days_over` calculates the number of days that the maximum
-    temperature is over a baseline value between between two dates.
+- `cumulative` calculates cumulative weather data between between two
+  dates, and
+- `daily_mean` calculates daily mean of a weather variable between two
+  dates, and
+- `growing_degree_days` calculates the growing degree days between two
+  dates as the sum of the difference between daily average temp and a
+  baseline value where the daily average temp is capped, and
+- `stress_days_over` calculates the number of days that the maximum
+  temperature is over a baseline value between between two dates.
 
 In addition, several functions are available to calculate the day of
 year or convert this to a date, namely:
 
--   `day_of_year` calculates day of year from a date, and
--   `date_from_day_year` calculates a date from the day of the year and
-    the year, and
--   `day_of_harvest` returns day of harvest in the year of sowing which,
-    of course, may be a different year to the year of harvest.
+- `day_of_year` calculates day of year from a date, and
+- `date_from_day_year` calculates a date from the day of the year and
+  the year, and
+- `day_of_harvest` returns day of harvest in the year of sowing which,
+  of course, may be a different year to the year of harvest.
 
 Currently, two functions are available to retrieve SILO weather data
 from Queensland Government DES longpaddock website.
 
--   `get_silodata` retrieves weather data for one location from the
-    `longpaddock` website, and
--   `get_multi_silodata` retrieves weather data for several locations
-    from the `longpaddock` website.
+- `get_silodata` retrieves weather data for one location from the
+  `longpaddock` website, and
+- `get_multi_silodata` retrieves weather data for several locations from
+  the `longpaddock` website.
 
 SILO (Scientific Information for Land Owners) is a database of
 Australian climate data hosted by the Science and Technology Division of
@@ -113,7 +115,12 @@ to supply at least the site latitude and longitude as well as your email
 address by replacing `MY_EMAIL_ADDRESS` with your email address. The
 data is freely available under the Creative Commons 4.0 License. Note
 that SILO may be unavailable between 11am and 1pm (Brisbane time) each
-Wednesday and Thursday to allow for essential system maintenance.
+Wednesday and Thursday to allow for essential system maintenance. Also
+please note that, by default, `apsim` data are retrieved. Most, but not
+all, of the other formats are also available. See the help for
+`get_silodata` for details. You can obtain this help using
+`?cropgrowdays::get_silodata` at the R Console prompt or using your
+favourite help system.
 
 The data obtained is
 
@@ -128,7 +135,7 @@ print(boonah, n=5)
 #: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03
 #: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04
 #: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05
-#: # … with 512 more rows
+#: # ℹ 512 more rows
 ```
 
 The `crop` dataset consists of dates for a hypothetical crop data set
@@ -148,7 +155,7 @@ print(crop, n=5)
 #: 3 2019-12-18  2020-02-06  2020-02-26  
 #: 4 2020-01-15  2020-03-06  2020-03-26  
 #: 5 2020-02-15  2020-04-06  2020-04-26  
-#: # … with 5 more rows
+#: # ℹ 5 more rows
 ```
 
 Example `R` syntax is provided for calculating daily mean radiation,
@@ -156,22 +163,26 @@ total rainfall, growing degree dates and the number of stress days
 between two dates. Alternatively, a number of days before or after a
 certain date may be specified.
 
+Note that employing mapping functions to add agrometeorological
+variables to large data frames can take a substantial amount of
+computational time. We describe how to employ the `furrr` package, which
+provides a relatively simple way to apply mapping functions in parallel,
+to speed up these calculations.
+
 ### Growing Degree Days
 
 The `growing_degree_days` function calculates the sum of degree days for
-each day *i* = 1…*n*. The growing degree days *G**D**D* summed over *n*
+each day $i = 1 \ldots n$. The growing degree days $GDD$ summed over $n$
 days are
 
-$$GDD = \\sum_i^n (Tmax\_{i} + Tmin\_{i}) / 2 - T\_{base}$$
+$$GDD = \sum_i^n (Tmax_{i} + Tmin_{i}) / 2 - T_{base}$$
 
 during specified dates for a tibble/data frame of daily weather data.
-For each day *i*, the maximum temperature is *T**m**a**x*<sub>*i*</sub>
-and minimum is *T**m**i**n*<sub>*i*</sub>. Note that the maximum
-temperature *T**m**a**x* is capped at `maxt_cap` degrees when
-calculating average temperature. The defaults are
-*T*<sub>*b**a**s**e*</sub> = 5<sup>∘</sup>*C* and *T**m**a**x* is capped
-at *T**m**a**x*<sub>*c**a**p*</sub> = 30<sup>∘</sup>*C*. (See McMaster
-and Wilhelm (1997) or
+For each day $i$, the maximum temperature is $Tmax_{i}$ and minimum is
+$Tmin_{i}$. Note that the maximum temperature $Tmax$ is capped at
+`maxt_cap` degrees when calculating average temperature. The defaults
+are $T_{base} = 5^{\circ}C$ and $Tmax$ is capped at
+$Tmax_{cap} = 30^{\circ}C$. (See McMaster and Wilhelm (1997) or
 <https://farmwest.com/climate/calculator-information/gdd/> (Anon 2021))
 
 The *gdd* functions in the *pollen* package (Nowosad 2019) and in
@@ -200,7 +211,7 @@ growing_degree_days(boonah, startdate = crop$flower_date[4],
 `stress_days_over` calculates the number of days when the maximum
 temperature exceeded a base line `stress_temp` during specified dates
 for a tibble/data frame of daily weather data. The default `stress_temp`
-is set at 30<sup>∘</sup>*C*.
+is set at $30^{\circ}C$.
 
 To calculate the number of stress days at Boonah between flowering and
 harvest, use:
@@ -261,7 +272,7 @@ days after or before, respectively.
 
 ``` r
 ## Extract daily rainfall & maximum temperature data using %>% pipe operator
-boonah %>%
+boonah |>
   weather_extract(c(rain, maxt), date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
 #: # A tibble: 6 × 3
@@ -288,29 +299,30 @@ Alternatively, we could use functions from the `apply` family such as
 `mapply` from the `base` package.
 
 To add growing degree days 7 days post sowing and the number of stress
-days above 30<sup>∘</sup>*C* from flowering to harvest to the `crop`
-tibble, then we employ the following `mutate` syntax to extract the
-appropriate weather data from the `boonah` weather data object.
+days above $30^\circ C$ from flowering to harvest to the `crop` tibble,
+then we employ the following `mutate` syntax to extract the appropriate
+weather data from the `boonah` weather data object.
 
 ``` r
 ## Growing degree and stress days
-crop2 <- crop %>%
-  mutate(gddays_post_sow_7d =
-           map_dbl(sowing_date, function(x)
+crop2 <- crop |>
+  dplyr::mutate(gddays_post_sow_7d =
+           purrr::map_dbl(sowing_date, function(x)
              growing_degree_days(boonah, startdate = x, ndays = 7)),
          stressdays_flower_harvest =
-           map2_dbl(flower_date, harvest_date, function(x, y)
+           purrr::map2_dbl(flower_date, harvest_date, function(x, y)
              stress_days_over(boonah, startdate = x, enddate = y)))
 print(crop2, n=5)
 #: # A tibble: 10 × 5
-#:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_har…
+#:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_ha…¹
 #:   <date>      <date>      <date>                    <dbl>                  <dbl>
 #: 1 2019-08-25  2019-10-14  2019-11-03                 76.4                     10
 #: 2 2019-09-20  2019-11-09  2019-11-29                104.                      20
 #: 3 2019-12-18  2020-02-06  2020-02-26                132.                      11
 #: 4 2020-01-15  2020-03-06  2020-03-26                142.                       4
 #: 5 2020-02-15  2020-04-06  2020-04-26                145.                       5
-#: # … with 5 more rows
+#: # ℹ 5 more rows
+#: # ℹ abbreviated name: ¹​stressdays_flower_harvest
 ```
 
 Similarly, to add total rainfall for the 7 days post sowing and the mean
@@ -318,24 +330,27 @@ daily radiation from flowering to harvest we use:
 
 ``` r
 ## Totals and daily means
-crop3 <- crop %>%
-  mutate(totalrain_post_sow_7d =
-           map_dbl(sowing_date, function(x)
+crop3 <- crop |>
+  dplyr::mutate(totalrain_post_sow_7d =
+           purrr::map_dbl(sowing_date, function(x)
              cumulative(boonah, var = rain, startdate = x, ndays = 7)),
          meanrad_flower_harvest =
-           map2_dbl(flower_date, harvest_date, function(x, y)
+           purrr::map2_dbl(flower_date, harvest_date, function(x, y)
              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 print(crop3, n=5)
 #: # A tibble: 10 × 5
-#:   sowing_date flower_date harvest_date totalrain_post_sow_7d meanrad_flower_har…
-#:   <date>      <date>      <date>                       <dbl>               <dbl>
-#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5                22.9
-#: 2 2019-09-20  2019-11-09  2019-11-29                     0                  25.5
-#: 3 2019-12-18  2020-02-06  2020-02-26                     0                  16.5
-#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4                15.5
-#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7                16.6
-#: # … with 5 more rows
+#:   sowing_date flower_date harvest_date totalrain_post_sow_7d
+#:   <date>      <date>      <date>                       <dbl>
+#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5
+#: 2 2019-09-20  2019-11-09  2019-11-29                     0  
+#: 3 2019-12-18  2020-02-06  2020-02-26                     0  
+#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4
+#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7
+#: # ℹ 5 more rows
+#: # ℹ 1 more variable: meanrad_flower_harvest <dbl>
 ```
+
+### Speeding up calculations using `furrr`
 
 For large datasets these calculations can be time consuming. One
 approach that may prove useful is to use the `furrr` package which is a
@@ -355,8 +370,8 @@ ptm <- proc.time() # Start the clock!
 library(furrr)
 plan(multisession, workers = 2)
 ## Totals and daily means
-crop3 <- crop %>%
-  mutate(totalrain_post_sow_7d =
+crop3 <- crop |>
+  dplyr::mutate(totalrain_post_sow_7d =
            future_map_dbl(sowing_date, function(x)
              cumulative(boonah, var = rain, startdate = x, ndays = 7)),
          meanrad_flower_harvest =
@@ -438,12 +453,12 @@ Note that the first calculation simply assumes the first day of the year
 is 1 January 2021 whereas the second calculation yields a result
 assuming the first day of the year is 1 January 2020. Hence, since 2020
 is a leap year containing 366 days, then the day of harvest is
-366 + 5 = 371.
+$366 + 5 = 371$.
 
 ## Note
 
 The **cropgrowdays** `R` package is under development and could change
-rapidly at various times.
+rapidly at times.
 
 ## References
 

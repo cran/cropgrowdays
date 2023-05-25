@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 #  install_gitlab("petebaker/cropgrowdays", build_vignettes = TRUE)
 
 ## ----setup--------------------------------------------------------------------
-suppressMessages(library(tidyverse))
 suppressMessages(library(lubridate))
 library(cropgrowdays)
 

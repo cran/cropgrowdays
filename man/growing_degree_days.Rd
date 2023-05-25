@@ -90,7 +90,9 @@ data and so this decision is left to the user.
 }
 \examples{
 ## Selected calculations
-library(tidyverse)
+## library(tidyverse)  # only purrr used here for crop2 example
+library(dplyr)
+library(purrr)
 growing_degree_days(boonah, enddate = crop$flower_date[4], ndays = 3,
                     varmax = maxt, varmin = mint,
                     monitor = TRUE)
@@ -104,13 +106,13 @@ growing_degree_days(boonah, startdate = crop$flower_date[4],
 ## Add selected growing degree days at 'boonah' to 'crop' tibble
 ## using 'map2_dbl' from the 'purrr' package
 ## Note: using equivalent 'furrr' functions can speed up calculations 
-crop2 <- crop \%>\%
+crop2 <- crop |>
   mutate(gddays8_post_sow_7d =
-          map_dbl(sowing_date, function(x)
+          purrr::map_dbl(sowing_date, function(x)
             growing_degree_days(boonah, startdate = x, ndays = 7,
                                 base_temp = 8)),
           gddays_flower_harvest =
-            map2_dbl(flower_date, harvest_date, function(x, y)
+            purrr::map2_dbl(flower_date, harvest_date, function(x, y)
               growing_degree_days(boonah, startdate = x, enddate = y)))
 crop2
 

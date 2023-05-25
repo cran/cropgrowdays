@@ -1,6 +1,6 @@
+library(dplyr)
 library(purrr)
 library(testthat)
-library(tidyverse)
 library(lubridate)
 library(cropgrowdays)
 

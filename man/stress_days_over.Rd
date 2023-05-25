@@ -77,7 +77,9 @@ decision is left to the user.
 }
 \examples{
 ##  Selected calculations
-library(tidyverse)
+## library(tidyverse) # only purrr used here for crop2 example
+library(dplyr)
+library(purrr)
 stress_days_over(boonah, enddate = crop$flower_date[4], ndays = 3,
                  monitor = TRUE)
 stress_days_over(boonah, enddate = crop$harvest_date[4], ndays = 3,
@@ -88,13 +90,13 @@ stress_days_over(boonah, startdate = crop$flower_date[4],
 ## Add selected stress days at 'boonah' to 'crop' tibble
 ## using 'map2_dbl' from the 'purrr' package
 ## Note: using equivalent 'furrr' functions can speed up calculations 
-crop2 <- crop \%>\%
+crop2 <- crop |>
   mutate(stressdays25_post_sow_7d =
-          map_dbl(sowing_date, function(x)
+          purrr::map_dbl(sowing_date, function(x)
             stress_days_over(boonah, startdate = x, ndays = 7,
                              stress_temp = 25)),
           stressdays_flower_harvest =
-            map2_dbl(flower_date, harvest_date, function(x, y)
+            purrr::map2_dbl(flower_date, harvest_date, function(x, y)
               stress_days_over(boonah, startdate = x, enddate = y)))
 crop2
 

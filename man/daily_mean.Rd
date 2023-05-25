@@ -69,7 +69,9 @@ data and so this decision is left to the user.
 }
 \examples{
 ##  Selected calculations
-library(tidyverse)
+## library(tidyverse)   # only purrr used here for crop2 example
+library(dplyr)
+library(purrr)
 daily_mean(boonah, enddate = crop$flower_date[4], ndays = 3,
                     monitor = TRUE)
 daily_mean(boonah, enddate = crop$harvest_date[4], ndays = 3,
@@ -80,12 +82,12 @@ daily_mean(boonah, startdate = crop$flower_date[4],
 ## Add selected daily means of weather variables in 'boonah' to 'crop'
 ## tibble using 'map2_dbl' from the 'purrr' package
 ## Note: using equivalent 'furrr' functions can speed up calculations 
-crop2 <- crop \%>\%
+crop2 <- crop |>
   mutate(mean_maxtemp_post_sow_7d =
-          map_dbl(sowing_date, function(x)
+          purrr::map_dbl(sowing_date, function(x)
             daily_mean(boonah, var = maxt, startdate = x, ndays = 7)),
           mean_rad_flower_harvest =
-            map2_dbl(flower_date, harvest_date, function(x, y)
+            purrr::map2_dbl(flower_date, harvest_date, function(x, y)
               daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 crop2
 
