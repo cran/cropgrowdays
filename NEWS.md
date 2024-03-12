@@ -1,3 +1,10 @@
+# cropgrowdays 0.2.1
+  * 12 Mar 2024: finalised minor changes and corrections for CRAN release 
+  * Fixed breaking changes in Roxygen to use _PACKAGE special sentinel
+       in 'cropgrowdays-package.R' file to ensure CRAN compliance
+  * Changed URL reference to 'weatherOz' package which is now an
+       'ropensci' package
+
 # cropgrowdays 0.2.0
   * 25 May 2023: finalised major changes and minor corrections for CRAN release
 ## New features

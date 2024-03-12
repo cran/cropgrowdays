@@ -1,4 +1,4 @@
-##' Agrometeorological calculations for crops
+##' Cropgrowdays: Agrometeorological calculations for crops
 ##'
 ##' Weather related calculations for crops are provided for a
 ##' specified period including growing degree days, cumulative weather
@@ -33,9 +33,10 @@
 ##' <https://www.longpaddock.qld.gov.au/>. Use
 ##' \code{\link{get_multi_silodata}} to retrieve multiple locations.
 ##'
+##' @docType package
 ##' @import lubridate
 ##' @import dplyr
+##' @keywords internal
 ##' 
-##' @docType package
-##' @name cropgrowdays
-NULL
+"_PACKAGE"
+

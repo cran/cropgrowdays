@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#:"
@@ -23,7 +23,7 @@ library(cropgrowdays)
 ## weather data object
 print(boonah, n=5)
 
-## ---- crop-dataframe----------------------------------------------------------
+## ----crop-dataframe-----------------------------------------------------------
 ## crop data object
 print(crop, n=5)
 
@@ -56,7 +56,7 @@ boonah |>
   weather_extract(c(rain, maxt), date = date_met, startdate = ymd("2019-08-16"),
                   enddate = ymd("2019-08-21"))
 
-## ---- add2crop-gdd------------------------------------------------------------
+## ----add2crop-gdd-------------------------------------------------------------
 ## Growing degree and stress days
 crop2 <- crop |>
   dplyr::mutate(gddays_post_sow_7d =
@@ -67,7 +67,7 @@ crop2 <- crop |>
              stress_days_over(boonah, startdate = x, enddate = y)))
 print(crop2, n=5)
 
-## ---- add2crop-totrain--------------------------------------------------------
+## ----add2crop-totrain---------------------------------------------------------
 ## Totals and daily means
 crop3 <- crop |>
   dplyr::mutate(totalrain_post_sow_7d =
@@ -78,7 +78,7 @@ crop3 <- crop |>
              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
 print(crop3, n=5)
 
-## ---- eval=FALSE, add2crop-totrain-furrr--------------------------------------
+## ----eval=FALSE, add2crop-totrain-furrr---------------------------------------
 #  ptm <- proc.time() # Start the clock!
 #  ## set number of 'furrr' workers
 #  library(furrr)
@@ -94,7 +94,7 @@ print(crop3, n=5)
 #  print(crop3, n=5)
 #  proc.time() - ptm # Stop the clock!
 
-## ---- day-of-year-------------------------------------------------------------
+## ----day-of-year--------------------------------------------------------------
 ##  Day of Calendar Year
 day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")))
 day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), return_year = TRUE)
@@ -104,12 +104,12 @@ day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "financial"
 day_of_year(ymd(c("2020-12-31", "2020-07-01", "2020-01-01")), type = "fin",
             return_year = TRUE)
 
-## ---- date-from-day-----------------------------------------------------------
+## ----date-from-day------------------------------------------------------------
 ## Convert day of year to a date
 date_from_day_year(21,2021)
 date_from_day_year(21,2021, type = "fina")
 
-## ---- day-of-harvest----------------------------------------------------------
+## ----day-of-harvest-----------------------------------------------------------
 ## Day of harvest using the first day of the year of sowing as the base day
 day_of_year(ymd("2021-01-05"))
 day_of_harvest(x = ymd("2021-01-05"), sowing = ymd("2020-12-20"))  # > 366

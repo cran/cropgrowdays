@@ -1,6 +1,6 @@
 Package: cropgrowdays
 Title: Crop Growing Degree Days and Agrometeorological Calculations
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(
     person(given = "Peter",
            family = "Baker",
@@ -27,16 +27,16 @@ Encoding: UTF-8
 LazyData: true
 URL: https://gitlab.com/petebaker/cropgrowdays/
 BugReports: https://gitlab.com/petebaker/cropgrowdays/-/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Depends: R (>= 4.2.0)
 Imports: lubridate, dplyr, tibble, purrr, purrrlyr, httr
 Suggests: rmarkdown, knitr, furrr, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2023-05-25 15:26:59 UTC; pete
+Packaged: 2024-03-12 14:09:11 UTC; pete
 Author: Peter Baker [aut, cre] (<https://orcid.org/0000-0002-1241-7263>),
   Miranda Mortlock [aut] (<https://orcid.org/0000-0001-7029-9827>)
 Maintainer: Peter Baker <drpetebaker@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-05-25 15:40:02 UTC
+Date/Publication: 2024-03-12 14:20:06 UTC

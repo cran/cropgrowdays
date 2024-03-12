@@ -367,15 +367,15 @@ Government DES Website</h1>
 <h2>Quick Start</h2>
 <p>Install the latest stable version of <strong>cropgrowdays</strong>
 via CRAN with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;cropgrowdays&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;cropgrowdays&quot;</span>)</span></code></pre></div>
 <p>You can install the development version of
 <strong>cropgrowdays</strong> from <code>GitLab</code> with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## if you don&#39;t have &#39;remotes&#39; installed, automatically install it</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;remotes&quot;</span>)) {</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com/&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install_gitlab</span>(<span class="st">&quot;petebaker/cropgrowdays&quot;</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## if you don&#39;t have &#39;remotes&#39; installed, automatically install it</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;remotes&quot;</span>)) {</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com/&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">install_gitlab</span>(<span class="st">&quot;petebaker/cropgrowdays&quot;</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
@@ -393,8 +393,8 @@ conjunction with the <strong>tidyverse</strong> and
 using the <strong>furrr</strong> package to speed up adding
 agrometeorological variables to large data frames. For this document, we
 only use the <strong>lubridate</strong> package as follows.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(lubridate))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cropgrowdays)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(lubridate))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(cropgrowdays)</span></code></pre></div>
 <p>Note that if you are not familiar with the <code>lubridate</code>
 package, then in order to see which functions are provided and which
 functions conflict with other packages, initially it may best not to
@@ -425,9 +425,9 @@ located at -27.9927 S, 152.6906 E. The data is in <code>APSIM</code>
 format and contains temperature, rainfall, evaporation and radiation
 variables and the rows are consecutive days during the period. The
 weather data set was obtained using</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>boonah <span class="ot">&lt;-</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">get_silodata</span>(<span class="at">latitude =</span> <span class="st">&quot;-27.9927&quot;</span>, <span class="at">longitude =</span> <span class="st">&quot;152.6906&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">email =</span> <span class="st">&quot;MY_EMAIL_ADDRESS&quot;</span>, <span class="at">START =</span> <span class="st">&quot;20190101&quot;</span>, <span class="at">FINISH =</span> <span class="st">&quot;20200531&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>boonah <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>   <span class="fu">get_silodata</span>(<span class="at">latitude =</span> <span class="st">&quot;-27.9927&quot;</span>, <span class="at">longitude =</span> <span class="st">&quot;152.6906&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>                <span class="at">email =</span> <span class="st">&quot;MY_EMAIL_ADDRESS&quot;</span>, <span class="at">START =</span> <span class="st">&quot;20190101&quot;</span>, <span class="at">FINISH =</span> <span class="st">&quot;20200531&quot;</span>)</span></code></pre></div>
 <p>To obtain gridded data, which is what <code>get_silodata</code>
 assumes, you need to supply at least the site latitude and longitude as
 well as your email address by replacing <code>MY_EMAIL_ADDRESS</code>
@@ -441,17 +441,17 @@ for details. You can obtain this help using
 <code>?cropgrowdays::get_silodata</code> at the R Console prompt or
 using your favourite help system.</p>
 <p>The data obtained is</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## weather data object</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(boonah, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 517 × 10</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#:    year   day  radn  maxt  mint  rain  evap    vp   code date_met  </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;    </span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1  2019     1  26.2  33.9  16.3     0   7.8  20.6 222222 2019-01-01</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2  2019     2  28.2  33.4  17.6     0   7.7  19.8 222222 2019-01-02</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 512 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## weather data object</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">print</span>(boonah, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#: # A tibble: 517 × 10</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#:    year   day  radn  maxt  mint  rain  evap    vp   code date_met  </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#:   &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;    </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#: 1  2019     1  26.2  33.9  16.3     0   7.8  20.6 222222 2019-01-01</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#: 2  2019     2  28.2  33.4  17.6     0   7.7  19.8 222222 2019-01-02</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#: # ℹ 512 more rows</span></span></code></pre></div>
 <p>Finally, please note that by default, the <code>APSIM</code> format
 is returned and a date column called <code>date_met</code> is appended
 to the retrieved data. Many other formats are available and may need to
@@ -466,26 +466,26 @@ The main differences are that <code>latitude</code> and
 <code>Sitename</code>is a character vector of site names or site
 labels.</p>
 <p>A simple example is:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>two_sites  <span class="ot">&lt;-</span> <span class="fu">get_multi_silodata</span>(<span class="at">latitude =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">27.00</span>, <span class="sc">-</span><span class="fl">28.00</span>),</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">longitude =</span> <span class="fu">c</span>(<span class="fl">151.00</span>, <span class="fl">152.00</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Sitename =</span> <span class="fu">c</span>(<span class="st">&quot;Site_1&quot;</span>, <span class="st">&quot;Site_2&quot;</span>),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">START =</span> <span class="st">&quot;20201101&quot;</span>, <span class="at">FINISH =</span> <span class="st">&quot;20201105&quot;</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">email =</span> <span class="st">&quot;MY_EMAIL_ADDRESS&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>two_sites  <span class="ot">&lt;-</span> <span class="fu">get_multi_silodata</span>(<span class="at">latitude =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">27.00</span>, <span class="sc">-</span><span class="fl">28.00</span>),</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                     <span class="at">longitude =</span> <span class="fu">c</span>(<span class="fl">151.00</span>, <span class="fl">152.00</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                     <span class="at">Sitename =</span> <span class="fu">c</span>(<span class="st">&quot;Site_1&quot;</span>, <span class="st">&quot;Site_2&quot;</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                     <span class="at">START =</span> <span class="st">&quot;20201101&quot;</span>, <span class="at">FINISH =</span> <span class="st">&quot;20201105&quot;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                     <span class="at">email =</span> <span class="st">&quot;MY_EMAIL_ADDRESS&quot;</span>)</span></code></pre></div>
 <p>The retrieved data are:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>two_sites</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 11</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#:     year   day  radn  maxt  mint  rain  evap    vp   code date_met   Sitename</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#:    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;     &lt;chr&gt;   </span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#:  1  2020   306  27.6  31.2  10.2     0   7.6   8.7 222222 2020-11-01 Site_1  </span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#:  2  2020   307  23    31.3  11.8     0   7.2  13.3 222222 2020-11-02 Site_1  </span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#:  3  2020   308  27.2  30.6  14       0   7.2  13   222222 2020-11-03 Site_1  </span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#:  4  2020   309  26.3  32.5  14.4     0   8.8  13.6 222222 2020-11-04 Site_1  </span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#:  5  2020   310  22.9  36.9  16.1     0  10    15.8 222222 2020-11-05 Site_1  </span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#:  6  2020   306  26.6  27.3   9.6     0   7    10.6 222222 2020-11-01 Site_2  </span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:  7  2020   307  22.7  26.5  12.5     0   6.8  14.2 222222 2020-11-02 Site_2  </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#:  8  2020   308  28.5  26.4  12.3     0   6.8  11.2 222222 2020-11-03 Site_2  </span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#:  9  2020   309  27.4  28.7  11.3     0   6.8  13.1 222222 2020-11-04 Site_2  </span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#: 10  2020   310  19    33.6  13.5     0   9    17   222222 2020-11-05 Site_2</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>two_sites</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 11</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#:     year   day  radn  maxt  mint  rain  evap    vp   code date_met   Sitename</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#:    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;     &lt;chr&gt;   </span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#:  1  2020   306  27.6  31.2  10.2     0   7.6   8.7 222222 2020-11-01 Site_1  </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#:  2  2020   307  23    31.3  11.8     0   7.2  13.3 222222 2020-11-02 Site_1  </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#:  3  2020   308  27.2  30.6  14       0   7.2  13   222222 2020-11-03 Site_1  </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#:  4  2020   309  26.3  32.5  14.4     0   8.8  13.6 222222 2020-11-04 Site_1  </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#:  5  2020   310  22.9  36.9  16.1     0  10    15.8 222222 2020-11-05 Site_1  </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#:  6  2020   306  26.6  27.3   9.6     0   7    10.6 222222 2020-11-01 Site_2  </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#:  7  2020   307  22.7  26.5  12.5     0   6.8  14.2 222222 2020-11-02 Site_2  </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#:  8  2020   308  28.5  26.4  12.3     0   6.8  11.2 222222 2020-11-03 Site_2  </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#:  9  2020   309  27.4  28.7  11.3     0   6.8  13.1 222222 2020-11-04 Site_2  </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#: 10  2020   310  19    33.6  13.5     0   9    17   222222 2020-11-05 Site_2</span></span></code></pre></div>
 <p>Note that, to obtain gridded data, you need to supply at least each
 site’s latitude and longitude as well as your email address by replacing
 <code>MY_EMAIL_ADDRESS</code> with your email address. The data is
@@ -497,11 +497,11 @@ freely available under the Creative Commons 4.0 License.</p>
 2021)</span>, which used to provide forecast, bulletin and historic data
 (see <a href="https://github.com/ropensci-archive/bomrang/" class="uri">https://github.com/ropensci-archive/bomrang/</a>), was
 archived after the Australian Bureau of Meteorology appeared to ban
-scraping on it’s websites in March 2021. Adam Sparks and team are
-currently developing an <code>R</code> package <code>weatherOz</code>
-which also includes a <code>SILO</code> wrapper (see <a href="https://dpird-fsi.github.io/weatherOz/reference/get_silo.html" class="uri">https://dpird-fsi.github.io/weatherOz/reference/get_silo.html</a>).
-Paid services for some forecast, current and historical weather data for
-areas of interest may be available but these are not discussed here.</p>
+scraping on it’s websites in March 2021. Adam Sparks and team have
+produced an <code>R</code> package <code>weatherOz</code> which also
+includes a <code>SILO</code> wrapper (see <a href="https://github.com/ropensci/weatherOz" class="uri">https://github.com/ropensci/weatherOz</a>). Paid services
+for some forecast, current and historical weather data for areas of
+interest may be available but these are not discussed here.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="unnumbered">References</h2>

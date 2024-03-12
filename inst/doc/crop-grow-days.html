@@ -368,15 +368,15 @@ for Crops</h1>
 <h2>Quick Start</h2>
 <p>Install the latest stable version of <strong>cropgrowdays</strong>
 via CRAN with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;cropgrowdays&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;cropgrowdays&quot;</span>)</span></code></pre></div>
 <p>You can install the development version of
 <strong>cropgrowdays</strong> from <code>GitLab</code> with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## if you don&#39;t have &#39;remotes&#39; installed, automatically install it</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;remotes&quot;</span>)) {</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com/&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install_gitlab</span>(<span class="st">&quot;petebaker/cropgrowdays&quot;</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## if you don&#39;t have &#39;remotes&#39; installed, automatically install it</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;remotes&quot;</span>)) {</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com/&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">install_gitlab</span>(<span class="st">&quot;petebaker/cropgrowdays&quot;</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
@@ -394,8 +394,8 @@ conjunction with the <strong>tidyverse</strong> and
 using the <strong>furrr</strong> package to speed up adding
 agrometeorological variables to large data frames. For this document, we
 only use the <strong>lubridate</strong> package as follows.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(lubridate))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cropgrowdays)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(lubridate))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(cropgrowdays)</span></code></pre></div>
 <p>Note that if you are not familiar with the <code>lubridate</code>
 package, then in order to see which functions are provided and which
 functions conflict with other packages, initially it may best not to
@@ -408,17 +408,17 @@ Government DES longpaddock website <a href="https://www.longpaddock.qld.gov.au" 
 <code>get_silodata</code> function. Please see <a href="./getting-weather-data.html">getting-weather-data vignette</a> for
 details.</p>
 <p>The data obtained is</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## weather data object</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(boonah, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 517 × 10</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#:    year   day  radn  maxt  mint  rain  evap    vp   code date_met  </span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;    </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1  2019     1  26.2  33.9  16.3     0   7.8  20.6 222222 2019-01-01</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2  2019     2  28.2  33.4  17.6     0   7.7  19.8 222222 2019-01-02</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 512 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## weather data object</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">print</span>(boonah, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#: # A tibble: 517 × 10</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#:    year   day  radn  maxt  mint  rain  evap    vp   code date_met  </span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#:   &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;date&gt;    </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#: 1  2019     1  26.2  33.9  16.3     0   7.8  20.6 222222 2019-01-01</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#: 2  2019     2  28.2  33.4  17.6     0   7.7  19.8 222222 2019-01-02</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#: 3  2019     3  20.5  32.8  16.7     0   6.8  21.9 222222 2019-01-03</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#: 4  2019     4  23    32.5  21       2   7.7  22   222222 2019-01-04</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#: 5  2019     5  27    33.6  16.8     0   6    21.8 222222 2019-01-05</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#: # ℹ 512 more rows</span></span></code></pre></div>
 </div>
 <div id="agrometeorological-calculations" class="section level2">
 <h2>Agrometeorological calculations</h2>
@@ -427,17 +427,17 @@ crop data set which would also usually contain agronomic traits of
 interest such as yield, dry matter yield and so on. Each row of data
 contains sowing, flowering and harvest dates for a typical field or farm
 in Queensland, Australia.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## crop data object</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 3</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;      </span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03  </span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29  </span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26  </span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26  </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26  </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## crop data object</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">print</span>(crop, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 3</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;      </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03  </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29  </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26  </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26  </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26  </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span></code></pre></div>
 <p>Example <code>R</code> syntax is provided for calculating daily mean
 radiation, total rainfall, growing degree dates and the number of stress
 days between two dates. Alternatively, a number of days before or after
@@ -471,14 +471,14 @@ further variations on the formula above as outlined in <span class="citation">Ba
 <p>To calculate the growing degree days at Boonah using weather data
 from the <code>boonah</code> object between flowering and harvest
 use:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Growing Degree Days between two dates</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>crop<span class="sc">$</span>flower_date[<span class="dv">4</span>]     <span class="co"># flowering date for 4th field or farm in &#39;crop&#39;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-06&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]    <span class="co"># harvest date for 4th field or farm in &#39;crop&#39;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-26&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">growing_degree_days</span>(boonah, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]) <span class="co">#, monitor = TRUE)</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 359.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## Growing Degree Days between two dates</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>crop<span class="sc">$</span>flower_date[<span class="dv">4</span>]     <span class="co"># flowering date for 4th field or farm in &#39;crop&#39;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-06&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]    <span class="co"># harvest date for 4th field or farm in &#39;crop&#39;</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-26&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">growing_degree_days</span>(boonah, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                         <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]) <span class="co">#, monitor = TRUE)</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#: [1] 359.05</span></span></code></pre></div>
 </div>
 <div id="stress-days" class="section level3">
 <h3>Stress days</h3>
@@ -488,10 +488,10 @@ specified dates for a tibble/data frame of daily weather data. The
 default <code>stress_temp</code> is set at <span class="math inline">\(30^{\circ}C\)</span>.</p>
 <p>To calculate the number of stress days at Boonah between flowering
 and harvest, use:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Stress days  between two dates</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stress_days_over</span>(boonah, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]) <span class="co"># , monitor = TRUE)</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="do">## Stress days  between two dates</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">stress_days_over</span>(boonah, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                 <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>]) <span class="co"># , monitor = TRUE)</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#: [1] 4</span></span></code></pre></div>
 </div>
 <div id="cumulative-calculations" class="section level3">
 <h3>Cumulative calculations</h3>
@@ -500,10 +500,10 @@ between two dates from a tibble/data frame of daily weather data.
 Typically this is used for solar radiation or rainfall.</p>
 <p>To calculate the total rainfall at Boonah between flowering and
 harvest, use:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## cumulative rainfall between two dates (flowering and harvest)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>])</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 22.8</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## cumulative rainfall between two dates (flowering and harvest)</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>],</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>           <span class="at">enddate =</span> crop<span class="sc">$</span>harvest_date[<span class="dv">4</span>])</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#: [1] 22.8</span></span></code></pre></div>
 </div>
 <div id="daily-means" class="section level3">
 <h3>Daily means</h3>
@@ -513,18 +513,18 @@ Typically this would be for temperature, rainfall or solar
 radiation.</p>
 <p>To calculate daily mean radiation in the 3 day period from day of
 flowering onwards (which also includes day of flowering), use:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## daily mean radiation for the three days ending on crop$flower_date[4]</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>crop<span class="sc">$</span>flower_date[<span class="dv">4</span>] <span class="co"># a particular flowering date</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-06&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">daily_mean</span>(boonah, <span class="at">enddate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>], <span class="at">ndays =</span> <span class="dv">3</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">monitor =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 3 × 2</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#:   date_met    radn</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;     &lt;dbl&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2020-03-04  10.7</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2020-03-05  11.8</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2020-03-06  11</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 11.16667</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">## daily mean radiation for the three days ending on crop$flower_date[4]</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>crop<span class="sc">$</span>flower_date[<span class="dv">4</span>] <span class="co"># a particular flowering date</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#: [1] &quot;2020-03-06&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">daily_mean</span>(boonah, <span class="at">enddate =</span> crop<span class="sc">$</span>flower_date[<span class="dv">4</span>], <span class="at">ndays =</span> <span class="dv">3</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>           <span class="at">monitor =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#: # A tibble: 3 × 2</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#:   date_met    radn</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#:   &lt;date&gt;     &lt;dbl&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#: 1 2020-03-04  10.7</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#: 2 2020-03-05  11.8</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#: 3 2020-03-06  11</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#: [1] 11.16667</span></span></code></pre></div>
 </div>
 </div>
 <div id="extracting-weather-data-from-a-tibble-or-dataframe" class="section level2">
@@ -533,19 +533,19 @@ flowering onwards (which also includes day of flowering), use:</p>
 between two specified dates we use <code>weather_extract</code>. Either
 specify the start and end dates or specify one of these dates and also
 the number of days after or before, respectively.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract daily rainfall &amp; maximum temperature data using %&gt;% pipe operator</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>boonah <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">weather_extract</span>(<span class="fu">c</span>(rain, maxt), <span class="at">date =</span> date_met, <span class="at">startdate =</span> <span class="fu">ymd</span>(<span class="st">&quot;2019-08-16&quot;</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">enddate =</span> <span class="fu">ymd</span>(<span class="st">&quot;2019-08-21&quot;</span>))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 6 × 3</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#:   date_met    rain  maxt</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-16     0  26  </span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-08-17     0  28  </span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-08-18     0  25.7</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2019-08-19     0  26.8</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2019-08-20     0  23.1</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#: 6 2019-08-21     0  26.3</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## Extract daily rainfall &amp; maximum temperature data using %&gt;% pipe operator</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>boonah <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">weather_extract</span>(<span class="fu">c</span>(rain, maxt), <span class="at">date =</span> date_met, <span class="at">startdate =</span> <span class="fu">ymd</span>(<span class="st">&quot;2019-08-16&quot;</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                  <span class="at">enddate =</span> <span class="fu">ymd</span>(<span class="st">&quot;2019-08-21&quot;</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#: # A tibble: 6 × 3</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#:   date_met    rain  maxt</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#:   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#: 1 2019-08-16     0  26  </span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#: 2 2019-08-17     0  28  </span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#: 3 2019-08-18     0  25.7</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#: 4 2019-08-19     0  26.8</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#: 5 2019-08-20     0  23.1</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#: 6 2019-08-21     0  26.3</span></span></code></pre></div>
 </div>
 <div id="adding-agrometeorological-variables-to-dataframes" class="section level2">
 <h2>Adding agrometeorological variables to dataframes</h2>
@@ -565,46 +565,46 @@ stress days above <span class="math inline">\(30^\circ C\)</span> from
 flowering to harvest to the <code>crop</code> tibble, then we employ the
 following <code>mutate</code> syntax to extract the appropriate weather
 data from the <code>boonah</code> weather data object.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Growing degree and stress days</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>crop2 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">gddays_post_sow_7d =</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">growing_degree_days</span>(boonah, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">stressdays_flower_harvest =</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">stress_days_over</span>(boonah, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop2, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 5</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_ha…¹</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                    &lt;dbl&gt;                  &lt;dbl&gt;</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                 76.4                     10</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                104.                      20</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                132.                      11</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                142.                       4</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                145.                       5</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ abbreviated name: ¹​stressdays_flower_harvest</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="do">## Growing degree and stress days</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>crop2 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">gddays_post_sow_7d =</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>             <span class="fu">growing_degree_days</span>(boonah, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>         <span class="at">stressdays_flower_harvest =</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>             <span class="fu">stress_days_over</span>(boonah, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">print</span>(crop2, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 5</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date gddays_post_sow_7d stressdays_flower_ha…¹</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                    &lt;dbl&gt;                  &lt;dbl&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                 76.4                     10</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                104.                      20</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                132.                      11</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                142.                       4</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                145.                       5</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#: # ℹ abbreviated name: ¹​stressdays_flower_harvest</span></span></code></pre></div>
 <p>Similarly, to add total rainfall for the 7 days post sowing and the
 mean daily radiation from flowering to harvest we use:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Totals and daily means</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">meanrad_flower_harvest =</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">daily_mean</span>(boonah, <span class="at">var =</span> radn, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop3, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 5</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date totalrain_post_sow_7d</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                       &lt;dbl&gt;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                     0  </span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                     0  </span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#: # ℹ 1 more variable: meanrad_flower_harvest &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## Totals and daily means</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>             <span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>         <span class="at">meanrad_flower_harvest =</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>           purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>             <span class="fu">daily_mean</span>(boonah, <span class="at">var =</span> radn, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">print</span>(crop3, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#: # A tibble: 10 × 5</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#:   sowing_date flower_date harvest_date totalrain_post_sow_7d</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#:   &lt;date&gt;      &lt;date&gt;      &lt;date&gt;                       &lt;dbl&gt;</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#: 1 2019-08-25  2019-10-14  2019-11-03                    10.5</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#: 2 2019-09-20  2019-11-09  2019-11-29                     0  </span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#: 3 2019-12-18  2020-02-06  2020-02-26                     0  </span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#: 4 2020-01-15  2020-03-06  2020-03-26                    88.4</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#: 5 2020-02-15  2020-04-06  2020-04-26                    20.7</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co">#: # ℹ 5 more rows</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co">#: # ℹ 1 more variable: meanrad_flower_harvest &lt;dbl&gt;</span></span></code></pre></div>
 <div id="speeding-up-calculations-using-furrr" class="section level3">
 <h3>Speeding up calculations using <code>furrr</code></h3>
 <p>For large datasets these calculations can be time consuming. One
@@ -619,20 +619,20 @@ front of the name of the mapping function. For instance,
 <code>map2_dbl</code> is replaced with <code>future_map2_dbl</code>.
 While the results are not shown here, to add total rain and mean
 radiation as before, use something like:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ptm <span class="ot">&lt;-</span> <span class="fu">proc.time</span>() <span class="co"># Start the clock!</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## set number of &#39;furrr&#39; workers</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Totals and daily means</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">future_map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">meanrad_flower_harvest =</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">future_map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">daily_mean</span>(boonah, <span class="at">var =</span> radn, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(crop3, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">proc.time</span>() <span class="sc">-</span> ptm <span class="co"># Stop the clock!</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>ptm <span class="ot">&lt;-</span> <span class="fu">proc.time</span>() <span class="co"># Start the clock!</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="do">## set number of &#39;furrr&#39; workers</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="do">## Totals and daily means</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>crop3 <span class="ot">&lt;-</span> crop <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">totalrain_post_sow_7d =</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>           <span class="fu">future_map_dbl</span>(sowing_date, <span class="cf">function</span>(x)</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>             <span class="fu">cumulative</span>(boonah, <span class="at">var =</span> rain, <span class="at">startdate =</span> x, <span class="at">ndays =</span> <span class="dv">7</span>)),</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>         <span class="at">meanrad_flower_harvest =</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>           <span class="fu">future_map2_dbl</span>(flower_date, harvest_date, <span class="cf">function</span>(x, y)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>             <span class="fu">daily_mean</span>(boonah, <span class="at">var =</span> radn, <span class="at">startdate =</span> x, <span class="at">enddate =</span> y)))</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="fu">print</span>(crop3, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="fu">proc.time</span>() <span class="sc">-</span> ptm <span class="co"># Stop the clock!</span></span></code></pre></div>
 <p>For recent work, we have found that setting 4 workers was optimal but
 this will of course depend on your setup.</p>
 </div>
@@ -648,33 +648,33 @@ package.</p>
 the day of year, which could be based on the calendar year starting on 1
 January, the Australian financial year starting on 1 July or an
 arbitrary starting date.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">##  Day of Calendar Year</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 366 183   1</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)), <span class="at">return_year =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#:   day year</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 366 2020</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2 183 2020</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3   1 2020</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Day of Financial Year</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)), <span class="at">type =</span> <span class="st">&quot;financial&quot;</span>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 184   1 185</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)), <span class="at">type =</span> <span class="st">&quot;fin&quot;</span>,</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">return_year =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#:   day  fin_year</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#: 1 184 2020/2021</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#: 2   1 2020/2021</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#: 3 185 2019/2020</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">##  Day of Calendar Year</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)))</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#: [1] 366 183   1</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)), <span class="at">return_year =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#:   day year</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#: 1 366 2020</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#: 2 183 2020</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#: 3   1 2020</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="do">## Day of Financial Year</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)), <span class="at">type =</span> <span class="st">&quot;financial&quot;</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#: [1] 184   1 185</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-12-31&quot;</span>, <span class="st">&quot;2020-07-01&quot;</span>, <span class="st">&quot;2020-01-01&quot;</span>)), <span class="at">type =</span> <span class="st">&quot;fin&quot;</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>            <span class="at">return_year =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#:   day  fin_year</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co">#: 1 184 2020/2021</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co">#: 2   1 2020/2021</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="co">#: 3 185 2019/2020</span></span></code></pre></div>
 <p>To convert a day of year to a date, use
 <code>date_from_day_year</code> noting that while the calendar year is
 the default, we can specify the Australian financial year or an
 arbitrary starting date.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert day of year to a date</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">date_from_day_year</span>(<span class="dv">21</span>,<span class="dv">2021</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2021-01-21&quot;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">date_from_day_year</span>(<span class="dv">21</span>,<span class="dv">2021</span>, <span class="at">type =</span> <span class="st">&quot;fina&quot;</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] &quot;2021-07-21&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="do">## Convert day of year to a date</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">date_from_day_year</span>(<span class="dv">21</span>,<span class="dv">2021</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#: [1] &quot;2021-01-21&quot;</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">date_from_day_year</span>(<span class="dv">21</span>,<span class="dv">2021</span>, <span class="at">type =</span> <span class="st">&quot;fina&quot;</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#: [1] &quot;2021-07-21&quot;</span></span></code></pre></div>
 <p>Finally, while we can use <code>day_of_year</code> to obtain the day
 of the current year, if a crop is planted near the end of the year then
 we way wish to know the day of harvest which will fall in the next year.
@@ -687,11 +687,11 @@ are also easily computed directly on the dates by using the
 <code>lubridate</code> package. For instance the convenience function
 <code>cropgrowdays::number_of_days</code> is essentially a call to
 <code>as.numeric(finish_date - start_date) + 1</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Day of harvest using the first day of the year of sowing as the base day</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="st">&quot;2021-01-05&quot;</span>))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 5</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">day_of_harvest</span>(<span class="at">x =</span> <span class="fu">ymd</span>(<span class="st">&quot;2021-01-05&quot;</span>), <span class="at">sowing =</span> <span class="fu">ymd</span>(<span class="st">&quot;2020-12-20&quot;</span>))  <span class="co"># &gt; 366</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#: [1] 371</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="do">## Day of harvest using the first day of the year of sowing as the base day</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">day_of_year</span>(<span class="fu">ymd</span>(<span class="st">&quot;2021-01-05&quot;</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#: [1] 5</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">day_of_harvest</span>(<span class="at">x =</span> <span class="fu">ymd</span>(<span class="st">&quot;2021-01-05&quot;</span>), <span class="at">sowing =</span> <span class="fu">ymd</span>(<span class="st">&quot;2020-12-20&quot;</span>))  <span class="co"># &gt; 366</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#: [1] 371</span></span></code></pre></div>
 <p>Note that the first calculation simply assumes the first day of the
 year is 1 January 2021 whereas the second calculation yields a result
 assuming the first day of the year is 1 January 2020. Hence, since 2020

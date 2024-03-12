@@ -4,7 +4,7 @@
 <!--  the header with latex version only BUT THIS DOESN'T WORK! somewhat hard to debug -->
 # cropgrowdays <img src="man/figures/cropgrowdays_hex.png" height="139" align="right"/>
 
-Version: 0.2.0
+Version: 0.2.1
 
 <!-- Common intro material -->
 
@@ -454,11 +454,6 @@ is 1 January 2021 whereas the second calculation yields a result
 assuming the first day of the year is 1 January 2020. Hence, since 2020
 is a leap year containing 366 days, then the day of harvest is
 $366 + 5 = 371$.
-
-## Note
-
-The **cropgrowdays** `R` package is under development and could change
-rapidly at times.
 
 ## References
 

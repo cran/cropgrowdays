@@ -83,10 +83,10 @@ The excellent `R` package `bomrang` [@sparks2017; @sparks2021], which
 used to provide forecast, bulletin and historic data (see
 https://github.com/ropensci-archive/bomrang/), was archived after the
 Australian Bureau of Meteorology appeared to ban scraping on it's
-websites in March 2021. Adam Sparks and team are currently developing
-an `R` package `weatherOz` which also includes a `SILO` wrapper (see
-https://dpird-fsi.github.io/weatherOz/reference/get_silo.html).  Paid
-services for some forecast, current and historical weather data for
-areas of interest may be available but these are not discussed here.
+websites in March 2021. Adam Sparks and team have produced an `R`
+package `weatherOz` which also includes a `SILO` wrapper (see
+https://github.com/ropensci/weatherOz).  Paid services for some
+forecast, current and historical weather data for areas of interest
+may be available but these are not discussed here.
 
 ## References
