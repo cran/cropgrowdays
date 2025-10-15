@@ -1,3 +1,12 @@
+# cropgrowdays 0.2.2
+  * 14 Oct 2025: changed link to 'tibble' to avoid anchor warning in R-devel
+  * Changed obsolete URL: https://farmwest.com/climate/calculator-information/gdd/
+       (moved to https://farmwest.com/transition/bcagriweather/)
+  * removed DOI for Baskerville (1969) which resulted in Error 403 no matter
+    what was changed. Originally, DOI then this to minimise chance of
+	redirection
+	https://esajournals.onlinelibrary.wiley.com/doi/10.2307/1933912
+
 # cropgrowdays 0.2.1
   * 12 Mar 2024: finalised minor changes and corrections for CRAN release 
   * Fixed breaking changes in Roxygen to use _PACKAGE special sentinel

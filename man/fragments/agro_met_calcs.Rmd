@@ -23,7 +23,7 @@ minimum is $Tmin_{i}$. Note that the maximum temperature $Tmax$ is
 capped at `maxt_cap` degrees when calculating average temperature. The
 defaults are $T_{base} = 5^{\circ}C$ and $Tmax$ is capped at
 $Tmax_{cap} = 30^{\circ}C$. (See @mcmaster1997 or
-https://farmwest.com/climate/calculator-information/gdd/ [@anonGDD])
+ https://farmwest.com/transition/bcagriweather/ [@anonGDD])
 
 The *gdd* functions in the *pollen* package [@pollen2019] and in
 *agroclim* [@agroclim2020] also calculate growing degree days. While

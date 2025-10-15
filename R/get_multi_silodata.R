@@ -17,7 +17,7 @@
 ##'   \code{Sitename}
 ##' @inheritParams get_silodata
 ##' 
-##' @return A \code{\link{tibble}} (dataframe) containing specified or
+##' @return A \code{\link[tibble]{tibble}} (dataframe) containing specified or
 ##'   default climate variables. If \dQuote{APSIM} format is specified
 ##'   then an extra column \code{date_met}, containing the date, is
 ##'   returned along with the usual \code{year} and day of year

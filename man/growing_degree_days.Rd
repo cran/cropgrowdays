@@ -71,7 +71,7 @@ The value returned is the sum of of degree days \eqn{GDD = \sum_i
 (Tmax_i + Tmin_i) / 2 - Tbase} during specified dates for a tibble
 or data frame of daily weather data. The maximum temperature Tmax
 is capped at \code{maxt_cap} degrees when calculating average temp
-(see \url{https://farmwest.com/climate/calculator-information/gdd/} or
+(see < https://farmwest.com/transition/bcagriweather/>) or
 McMaster, GS, & Wilhelm, WW (1997)). Baskerville, G &
 Emin, P (1969) provide variations on this method.
 
@@ -126,7 +126,7 @@ Temperatures. Ecology, 50(3), 514-517. \doi{10.2307/1933912}
 One equation, two interpretations. Agricultural and Forest
 Meteorology, 87(4), 291–300. \doi{10.1016/S0168-1923(97)00027-0}
 \item Anon. (2021). GDD. Farmwest. Retrieved June 15, 2021, from
-\url{https://farmwest.com/climate/calculator-information/gdd/}
+\url{https://farmwest.com/transition/bcagriweather/}
 }
 }
 \seealso{

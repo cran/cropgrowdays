@@ -4,7 +4,7 @@
 <!--  the header with latex version only BUT THIS DOESN'T WORK! somewhat hard to debug -->
 # cropgrowdays <img src="man/figures/cropgrowdays_hex.png" height="139" align="right"/>
 
-Version: 0.2.1
+Version: 0.2.2
 
 <!-- Common intro material -->
 
@@ -183,7 +183,7 @@ $Tmin_{i}$. Note that the maximum temperature $Tmax$ is capped at
 `maxt_cap` degrees when calculating average temperature. The defaults
 are $T_{base} = 5^{\circ}C$ and $Tmax$ is capped at
 $Tmax_{cap} = 30^{\circ}C$. (See McMaster and Wilhelm (1997) or
-<https://farmwest.com/climate/calculator-information/gdd/> (Anon 2021))
+<https://farmwest.com/transition/bcagriweather/> (Anon 2021))
 
 The *gdd* functions in the *pollen* package (Nowosad 2019) and in
 *agroclim* (Serrano-Notivoli 2020) also calculate growing degree days.
@@ -462,7 +462,7 @@ $366 + 5 = 371$.
 <div id="ref-anonGDD" class="csl-entry">
 
 Anon. 2021. “GDD.” *Farmwest*.
-<https://farmwest.com/climate/calculator-information/gdd/>.
+<https://farmwest.com/transition/bcagriweather/>.
 
 </div>
 
@@ -470,7 +470,7 @@ Anon. 2021. “GDD.” *Farmwest*.
 
 Baskerville, G. L., and P. Emin. 1969. “Rapid Estimation of Heat
 Accumulation from Maximum and Minimum Temperatures.” *Ecology* 50 (3):
-514–17. <https://doi.org/10.2307/1933912>.
+514–17.
 
 </div>
 

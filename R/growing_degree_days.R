@@ -11,7 +11,7 @@
 ##' (Tmax_i + Tmin_i) / 2 - Tbase} during specified dates for a tibble
 ##' or data frame of daily weather data. The maximum temperature Tmax
 ##' is capped at \code{maxt_cap} degrees when calculating average temp
-##' (see <https://farmwest.com/climate/calculator-information/gdd/> or
+##' (see < https://farmwest.com/transition/bcagriweather/>) or
 ##' McMaster, GS, & Wilhelm, WW (1997)). Baskerville, G &
 ##' Emin, P (1969) provide variations on this method.
 ##'
@@ -51,7 +51,7 @@
 ##'   One equation, two interpretations. Agricultural and Forest
 ##'   Meteorology, 87(4), 291–300. \doi{10.1016/S0168-1923(97)00027-0}
 ##' - Anon. (2021). GDD. Farmwest. Retrieved June 15, 2021, from
-##'   <https://farmwest.com/climate/calculator-information/gdd/>
+##'   <https://farmwest.com/transition/bcagriweather/>
 ##' 
 ##' @examples
 ##' ## Selected calculations

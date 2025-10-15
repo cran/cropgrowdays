@@ -50,7 +50,7 @@ not need to be changed. Default:
 \dQuote{https://www.longpaddock.qld.gov.au/cgi-bin/silo/DataDrillDataset.php}}
 }
 \value{
-A \code{\link{tibble}} (dataframe) containing specified or
+A \code{\link[tibble]{tibble}} (dataframe) containing specified or
 default climate variables. If \dQuote{APSIM} format is specified
 then an extra column \code{date_met}, containing the date, is
 returned along with the usual \code{year} and day of year

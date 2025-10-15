@@ -1,6 +1,10 @@
+;; -*- lexical-binding: t; -*-
+
 (TeX-add-style-hook
  "cropgrowdays"
  (lambda ()
+   (add-to-list 'LaTeX-verbatim-environments-local "Verbatim")
+   (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
    (LaTeX-add-bibitems
     "yang1995"
     "anonGDD"
@@ -10,5 +14,5 @@
     "baskerville1969"
     "pollen2019"
     "agroclim2020"))
- :bibtex)
+ '(or :bibtex :latex))
 

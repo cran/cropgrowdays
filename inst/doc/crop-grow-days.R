@@ -5,15 +5,15 @@ knitr::opts_chunk$set(
 )
 
 ## ----cran-installation, eval = FALSE------------------------------------------
-#  install.packages("cropgrowdays")
+# install.packages("cropgrowdays")
 
 ## ----gl-installation, eval = FALSE--------------------------------------------
-#  ## if you don't have 'remotes' installed, automatically install it
-#  if (!require("remotes")) {
-#    install.packages("remotes", repos = "http://cran.rstudio.com/")
-#    library("remotes")
-#  }
-#  install_gitlab("petebaker/cropgrowdays", build_vignettes = TRUE)
+# ## if you don't have 'remotes' installed, automatically install it
+# if (!require("remotes")) {
+#   install.packages("remotes", repos = "http://cran.rstudio.com/")
+#   library("remotes")
+# }
+# install_gitlab("petebaker/cropgrowdays", build_vignettes = TRUE)
 
 ## ----setup--------------------------------------------------------------------
 suppressMessages(library(lubridate))
@@ -79,20 +79,20 @@ crop3 <- crop |>
 print(crop3, n=5)
 
 ## ----eval=FALSE, add2crop-totrain-furrr---------------------------------------
-#  ptm <- proc.time() # Start the clock!
-#  ## set number of 'furrr' workers
-#  library(furrr)
-#  plan(multisession, workers = 2)
-#  ## Totals and daily means
-#  crop3 <- crop |>
-#    dplyr::mutate(totalrain_post_sow_7d =
-#             future_map_dbl(sowing_date, function(x)
-#               cumulative(boonah, var = rain, startdate = x, ndays = 7)),
-#           meanrad_flower_harvest =
-#             future_map2_dbl(flower_date, harvest_date, function(x, y)
-#               daily_mean(boonah, var = radn, startdate = x, enddate = y)))
-#  print(crop3, n=5)
-#  proc.time() - ptm # Stop the clock!
+# ptm <- proc.time() # Start the clock!
+# ## set number of 'furrr' workers
+# library(furrr)
+# plan(multisession, workers = 2)
+# ## Totals and daily means
+# crop3 <- crop |>
+#   dplyr::mutate(totalrain_post_sow_7d =
+#            future_map_dbl(sowing_date, function(x)
+#              cumulative(boonah, var = rain, startdate = x, ndays = 7)),
+#          meanrad_flower_harvest =
+#            future_map2_dbl(flower_date, harvest_date, function(x, y)
+#              daily_mean(boonah, var = radn, startdate = x, enddate = y)))
+# print(crop3, n=5)
+# proc.time() - ptm # Stop the clock!
 
 ## ----day-of-year--------------------------------------------------------------
 ##  Day of Calendar Year
